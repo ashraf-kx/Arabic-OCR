@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icons/Add.ico</file>
+        <file>Icons/Available-Updates.ico</file>
+        <file>Icons/Camera.ico</file>
+        <file>Icons/Files.ico</file>
+        <file>Icons/saveImage.png</file>
+        <file>Icons/IconAOCR.png</file>
+        <file>Icons/IconPDF.png</file>
+        <file>Icons/Cancel.ico</file>
+        <file>Icons/imageBackgroundPaper.png</file>
+    </qresource>
+</RCC>
