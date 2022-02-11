@@ -10,7 +10,7 @@
 #include <QGraphicsItem>
 #include <QImage>
 #include <QDateTime>
-#include <QTextCodec>
+#include <QtCore5Compat/QTextCodec>
 #include <QDebug>
 #include <QDateTime>
 #include <QMessageBox>
@@ -18,13 +18,12 @@
 #include <poppler/qt5/poppler-qt5.h>   // install the package [libpoppler-qt5-dev] from <<Ubuntu Software Center>>
 
 //////////////////////// INCLUDE OPEN Computer Vision /////////////////////
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/ml//ml.hpp>
+#include <opencv2/opencv.hpp>
+//#include <opencv2/highgui/highgui.hpp>
+//#include <opencv2/imgproc/imgproc.hpp>
+//#include <opencv2/ml//ml.hpp>
 ////////////////////////            END               /////////////////////
 
-using namespace cv;
 using namespace std;
 using namespace Poppler;
 namespace Ui {
