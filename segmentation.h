@@ -7,12 +7,13 @@
 #include <QGraphicsItem>
 #include <QImage>
 #include <QDateTime>
-#include <QTextCodec>
+#include <QtCore5Compat/QTextCodec>
 #include <QDebug>
 #include <QDateTime>
 #include <QMessageBox>
 #include <iostream>
-#include <poppler/qt5/poppler-qt5.h>   // install the package [libpoppler-qt5-dev] from <<Ubuntu Software Center>>
+#include <poppler/qt6/poppler-qt6.h>
+
 //////////////////////// INCLUDE OPEN Computer Vision /////////////////////
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>

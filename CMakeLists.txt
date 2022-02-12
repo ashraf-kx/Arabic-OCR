@@ -19,7 +19,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
-# find_package(OpenCV REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core5Compat REQUIRED)
+find_package(OpenCV 3.4.16 EXACT REQUIRED PATHS $ENV{HOME}/github/opencv)
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 set(PROJECT_SOURCES
         main.cpp
@@ -33,9 +35,6 @@ set(PROJECT_SOURCES
         preprocess.h
         mainwindow.ui
 )
-
-#add_subdirectory()
-include_directories("/home/achraf/github/opencv3/include/")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Arabic_OCR
@@ -61,10 +60,8 @@ else()
 endif()
 
 target_link_libraries(Arabic_OCR PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-#target_link_libraries(Arabic_OCR PRIVATE Qt${QT_VERSION_MAJOR}::Qt)
-target_link_libraries(Arabic_OCR PRIVATE -L/home/achraf/github/opencv3/build/lib/)
-
-target_include_directories(Arabic_OCR PRIVATE /home/achraf/github/opencv3/include/opencv2)
+target_link_libraries(Arabic_OCR PRIVATE Qt${QT_VERSION_MAJOR}::Core5Compat)
+target_link_libraries(Arabic_OCR PRIVATE ${OpenCV_LIBS})
 
 set_target_properties(Arabic_OCR PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

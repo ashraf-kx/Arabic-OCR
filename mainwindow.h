@@ -15,13 +15,13 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <iostream>
-#include <poppler/qt5/poppler-qt5.h>   // install the package [libpoppler-qt5-dev] from <<Ubuntu Software Center>>
+#include <poppler/qt6/poppler-qt6.h>   // install the package [pacman -Syu poppler-qt6] for <<Arch Linux>>
 
 //////////////////////// INCLUDE OPEN Computer Vision /////////////////////
 #include <opencv2/opencv.hpp>
-//#include <opencv2/highgui/highgui.hpp>
-//#include <opencv2/imgproc/imgproc.hpp>
-//#include <opencv2/ml//ml.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/ml//ml.hpp>
 ////////////////////////            END               /////////////////////
 
 using namespace std;
