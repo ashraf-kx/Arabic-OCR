@@ -10,26 +10,22 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <iostream>
+#include <QRegularExpression>
 
-//////////////////////// INCLUDE OPEN Computer Vision /////////////////////
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/ml//ml.hpp>
-////////////////////////            END               /////////////////////
+#include <opencv2/opencv.hpp>
 
 #define	NTRAINING_SAMPLES	100			// Number of training samples per class
 #define FRAC_LINEAR_SEP		0.9f	    // Fraction of samples which compose the linear separable part
 
-using namespace cv;
 using namespace std;
+using namespace cv;
+using namespace ml;
 
 class Recognition : public QObject
 {
     Q_OBJECT
 private:
-    CvSVM       svm;
-    CvSVMParams params;
+    Ptr<SVM> svm;
 
     QString AllLettres;
     Mat     labels;

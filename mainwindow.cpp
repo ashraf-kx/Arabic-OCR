@@ -43,8 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionSave_Image->setShortcut(QKeySequence::Save);
     ui->actionExit->setShortcut(QKeySequence::Close);
-    ui->actionFullScreen->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
-    ui->actionExit_FullScreen->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT+ Qt::Key_F));
+    ui->actionFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F));
+    ui->actionExit_FullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::SHIFT, Qt::Key_F));
 
     // Actions
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(browse()));
@@ -288,7 +288,7 @@ void MainWindow::loadPDF()
     fileName = QFileDialog::getOpenFileName(this,"Choose your PDF File","/home/ash/Desktop/","*.pdf");
     if(!fileName.isEmpty())
     {
-         document = Poppler::Document::load(fileName);
+         document = Document::load(fileName);
          document->setRenderHint(Poppler::Document::TextAntialiasing);
          page = document->page(0);
          PSizeF = page->pageSizeF();

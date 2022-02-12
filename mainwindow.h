@@ -15,17 +15,14 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <iostream>
-#include <poppler/qt6/poppler-qt6.h>   // install the package [pacman -Syu poppler-qt6] for <<Arch Linux>>
 
-//////////////////////// INCLUDE OPEN Computer Vision /////////////////////
+#include <poppler/qt6/poppler-qt6.h>   // install the package [pacman -Syu poppler-qt6] for <<Arch Linux>>
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/ml//ml.hpp>
-////////////////////////            END               /////////////////////
 
 using namespace std;
+using namespace cv;
 using namespace Poppler;
+
 namespace Ui {
 class MainWindow;
 }
@@ -89,8 +86,8 @@ private:
     QList<int>  histData;
 
     // PDF ATTRIBUTE.
-    Document *document;
-    Page     *page;
+    std::unique_ptr<Document> document;
+    std::unique_ptr<Page>     page;
     QSizeF    PSizeF;
 
 //!  >>>>>>>>>>>>>>>>>>>>>>>>>> METHODES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

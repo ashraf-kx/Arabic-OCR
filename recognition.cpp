@@ -3,6 +3,7 @@
 Recognition::Recognition(QObject *parent) :
     QObject(parent)
 {
+    svm = SVM::create();
     // Default to avoid errors
      AllLettres ="ﻷ/ﻸ/ﻻ/ﻼ/­ﺂ/£/¤/ﺄ/ﺎ/ب/ت/ث/،/ج/ح/خ/٠/١/٢/٣/٤/٥/٦/٧/٨/٩/ف/؛/س/ش/ص/؟/¢/ء/آ/أ/ؤ/ﻊ/ﺋ/ا/ﺑ/ة/ﺗ/ﺛ/ﺟ/ﺣ/ﺧ/د/ذ/ر/ز/ﺳ/ﺷ/ﺻ/ﺿ/ط/ظ/ﻋ/ﻏ/¦/¬/÷/×/ع/ـ/ﻓ/ﻗ/ﻛ/ﻟ/ﻣ/ﻧ/ﻫ/و/ى/ﻳ/ض/ﻌ/ﻎ/غ/م/ن/ه/ﻬ/ﻰ/ﻲ/ﻐ/ق/ﻵ/ﻶ/ل/ك/ي";
 }
@@ -58,12 +59,12 @@ Mat  Recognition::getTrainingSet(QList<Mat> CharactersSet)
 
 void Recognition::setSVMParameters(int kernalType,double C,double degree,double gamma)
 {
-    params.svm_type    = SVM::C_SVC;
-    params.kernel_type = kernalType;
-    params.C           = C;
-    params.degree      = degree;
-    params.gamma       = gamma;
-    params.term_crit   = TermCriteria(CV_TERMCRIT_ITER, (int)1e7, 1e-6);
+    svm->setType(SVM::C_SVC);
+    svm->setKernel(kernalType);  // SVM::POLY
+    svm->setGamma(gamma);
+    svm->setC(C);
+    svm->setDegree(degree);
+    svm->setTermCriteria(TermCriteria(CV_TERMCRIT_ITER, (int)1e7, 1e-6));
 }
 
 void Recognition::trainTheMachine(Mat trainingSet)
@@ -85,7 +86,7 @@ void Recognition::trainTheMachine(Mat trainingSet)
     //------------------------ 3. Train The SVM --------------------------------------------------
 
     //qint64 start = QDateTime::currentMSecsSinceEpoch();
-    svm.train(trainingSet, labels, Mat(), Mat(), params);
+    svm->train(trainingSet, ROW_SAMPLE, labels);
     // qint64 end = QDateTime::currentMSecsSinceEpoch();
     //int x = end-start;
 
@@ -93,21 +94,20 @@ void Recognition::trainTheMachine(Mat trainingSet)
 
 void Recognition::loadTrainingFile(QString fileName)
 {
-
-    if(!fileName.isEmpty()) svm.load(fileName.toStdString().c_str());
+    if(!fileName.isEmpty()) svm->load(fileName.toStdString().c_str());
 }
 
 void Recognition::saveTraining(QString fileName)
 {
-    if(!fileName.isEmpty()) svm.save(fileName.toStdString().c_str());
+    if(!fileName.isEmpty()) svm->save(fileName.toStdString().c_str());
 }
 
 QString Recognition::recognize(Mat TestingSet)
 {
-    QStringList list = AllLettres.split(QRegExp("/"));               // Temperary solution [ for model Characters ].
+    QStringList list = AllLettres.split(QRegularExpression("/"));               // Temperary solution [ for model Characters ].
     QString FinalResultToShow= "";
     charactersRecognized.create(TestingSet.rows,1,CV_32FC1);
-    svm.predict(TestingSet,charactersRecognized);
+    svm->predict(TestingSet,charactersRecognized);
 
     for (int i = -1; i < charactersRecognized.rows-1; i++) {
         int x = charactersRecognized.at<float>(i,1);
@@ -120,11 +120,11 @@ QString Recognition::recognize(Mat TestingSet)
 
 QString Recognition::recognizeTest(Mat TestingSet)
 {
-    QStringList list = AllLettres.split(QRegExp("/"));         // Temperary solution [ for model Characters ].
+    QStringList list = AllLettres.split(QRegularExpression("/"));         // Temperary solution [ for model Characters ].
     //for(int i=0; i< list.length();i++) qDebug()<<list.at(i)<<endl;
     QString FinalResultToShow= "";
     charactersRecognized.create(TestingSet.rows,1,CV_32FC1);
-    svm.predict(TestingSet,charactersRecognized);
+    svm->predict(TestingSet,charactersRecognized);
 
     //qDebug()<<"char rec : "<<charactersRecognized.rows<<"testing set : "<<TestingSet.rows<<endl;
     for (int i = -1; i < charactersRecognized.rows-1; i++) {

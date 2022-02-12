@@ -12,17 +12,12 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <iostream>
+
 #include <poppler/qt6/poppler-qt6.h>
+#include <opencv2/opencv.hpp>
 
-//////////////////////// INCLUDE OPEN Computer Vision /////////////////////
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/ml//ml.hpp>
-////////////////////////            END               /////////////////////
-
-using namespace cv;
 using namespace std;
+using namespace cv;
 
 class Segmentation : public QObject
 {

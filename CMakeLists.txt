@@ -19,6 +19,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core5Compat REQUIRED)
 find_package(OpenCV 3.4.16 EXACT REQUIRED PATHS $ENV{HOME}/github/opencv)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
@@ -60,8 +61,10 @@ else()
 endif()
 
 target_link_libraries(Arabic_OCR PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(Arabic_OCR PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(Arabic_OCR PRIVATE Qt${QT_VERSION_MAJOR}::Core5Compat)
 target_link_libraries(Arabic_OCR PRIVATE ${OpenCV_LIBS})
+target_link_libraries(Arabic_OCR PRIVATE -lpoppler-qt6)
 
 set_target_properties(Arabic_OCR PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

@@ -68,11 +68,11 @@ void Segmentation::getPosCutWord(Mat imageLine, int lineNbr)
     // For ARABIC SCRIPT [07_04_2015 20:00] (SAVED).
     int t_E_Pos = geoWords.length();
     int Z       = (t_E_Pos-t_S_Pos)/2;
+
     for(int i=t_S_Pos; i< t_S_Pos+Z; i++)
     {
         t_E_Pos--;
-        geoWords.swap(i,t_E_Pos);
-
+        geoWords.swapItemsAt(i,t_E_Pos);
     }
 }
 
@@ -417,7 +417,7 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
                }
         }
     }
-    qSort(posCuts.begin(), posCuts.end(), qLess<int>());  // [Solved]
+    std::sort(posCuts.begin(), posCuts.end()); // sorted with the default operator< [Solved]
     for (int j = 0; j < posCuts.length(); ++j)   // temporary Visualization [ SHOW RESULT ].
     {
         //Qdebug()<<"Cut >_"<<QString::number(posCuts.at(j));
