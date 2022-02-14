@@ -16,38 +16,38 @@
 #include <QMessageBox>
 #include <iostream>
 
-#include <poppler/qt6/poppler-qt6.h>   // install the package [pacman -Syu poppler-qt6] for <<Arch Linux>>
+#include <poppler/qt6/poppler-qt6.h> // install the package [pacman -Syu poppler-qt6] for <<Arch Linux>>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
 using namespace Poppler;
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
-
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-    Preprocess    *preprocessing;
-    Recognition   *recognition;
-    Segmentation  *segmentation;
+    Preprocess *preprocessing;
+    Recognition *recognition;
+    Segmentation *segmentation;
 
-    Ui::MainWindow      *ui;
-    QString             fileName;
+    Ui::MainWindow *ui;
+    QString fileName;
 
-    QGraphicsScene      *scene;
+    QGraphicsScene *scene;
     QGraphicsPixmapItem *item_pixmapIMG;
 
     // Vertical Histogram
-    QGraphicsScene      *sceneVHist;
+    QGraphicsScene *sceneVHist;
     QGraphicsPixmapItem *item_pixmapIMG_VHist;
 
     // Horizontal Histogram
-    QGraphicsScene      *sceneHHist;
+    QGraphicsScene *sceneHHist;
     QGraphicsPixmapItem *item_pixmapIMG_HHist;
 
     // images used.
@@ -70,7 +70,7 @@ private:
     QList<Mat> allWordsImages;
     QList<Mat> CharactersSet;
 
-    //Mat _imgCountor;
+    // Mat _imgCountor;
     VideoCapture _WebCam;
 
     bool exitCam;
@@ -83,25 +83,25 @@ private:
     QList<Mat> ALLCHARACTERS;
 
     // Histogram Data.
-    QList<int>  histData;
+    QList<int> histData;
 
     // PDF ATTRIBUTE.
     std::unique_ptr<Document> document;
-    std::unique_ptr<Page>     page;
-    QSizeF    PSizeF;
+    std::unique_ptr<Page> page;
+    QSizeF PSizeF;
 
-//!  >>>>>>>>>>>>>>>>>>>>>>>>>> METHODES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    //!  >>>>>>>>>>>>>>>>>>>>>>>>>> METHODES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void   display(const QImage& image,const QString message);
-    void   displayHistogramme(const QImage& image);
-    void   activateButton(QPushButton *BT);
-    void   deactivateButton(QPushButton *BT);
+    void display(const QImage &image, const QString message);
+    void displayHistogramme(const QImage &image);
+    void activateButton(QPushButton *BT);
+    void deactivateButton(QPushButton *BT);
 
-    QImage Mat2QImage(Mat const& src);
-    Mat    QImage2Mat(QImage const& src);
+    QImage Mat2QImage(Mat const &src);
+    Mat QImage2Mat(QImage const &src);
 
 private slots:
 
@@ -145,7 +145,6 @@ private slots:
     void saveImg();
     void reset();
     void about();
-
 };
 
 #endif // MAINWINDOW_H

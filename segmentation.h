@@ -25,13 +25,17 @@ class Segmentation : public QObject
 private:
     Mat _imgBW;
 
-    Mat    Visualization_V;
-    Mat    Visualization_H;
+    Mat Visualization_V;
+    Mat Visualization_H;
     QImage imgInProcessus;
 
-    enum HistType { V_Hist, H_Hist };
+    enum HistType
+    {
+        V_Hist,
+        H_Hist
+    };
 
-    int w;  // just for the test.
+    int w; // just for the test.
 
     struct line
     {
@@ -70,20 +74,19 @@ public:
 
     QList<Mat> tryCutWord(Mat imageIn);
     QList<int> cutWhereWhite(QList<int> list);
-    QList<Mat> getCharactersInWord(Mat image,QList<int> posCuts);
-    void       getPosCutWord(Mat imageLine, int lineNbr);
-    int        mostRedundantValue(QList<int> list);
-    QList<int> calculateBackProjection(Mat imageIn,HistType type);
-    Mat        smoothingHistogramme(Mat image);
-    static Mat copyRect(Mat image,int x1,int y1,int x2,int y2);
+    QList<Mat> getCharactersInWord(Mat image, QList<int> posCuts);
+    void getPosCutWord(Mat imageLine, int lineNbr);
+    int mostRedundantValue(QList<int> list);
+    QList<int> calculateBackProjection(Mat imageIn, HistType type);
+    Mat smoothingHistogramme(Mat image);
+    static Mat copyRect(Mat image, int x1, int y1, int x2, int y2);
     static Mat characterNormalization(Mat image);
     QList<Mat> cutLine2Characters(QList<Mat> listImagesLines, int i);
     QList<Mat> getAllImagesLines(Mat image);
     QList<Mat> segmenteEntierDocument(Mat image);
-    void       lineDetection(QList<int> HistDATA);
-    void       wordsDetection();
-    int        averageLineHeight(QList<int> list);
-
+    void lineDetection(QList<int> HistDATA);
+    void wordsDetection();
+    int averageLineHeight(QList<int> list);
 };
 
 #endif // SEGMENTATION_H
