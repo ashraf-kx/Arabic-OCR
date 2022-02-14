@@ -4,12 +4,12 @@ Recognition::Recognition(QObject *parent) : QObject(parent)
 {
     svm = SVM::create();
     // Default to avoid errors
-    AllLettres = "ﻷ/ﻸ/ﻻ/ﻼ/­ﺂ/£/¤/ﺄ/ﺎ/ب/ت/ث/،/ج/ح/خ/٠/١/٢/٣/٤/٥/٦/٧/٨/٩/ف/؛/س/ش/ص/؟/¢/ء/آ/أ/ؤ/ﻊ/ﺋ/ا/ﺑ/ة/ﺗ/ﺛ/ﺟ/ﺣ/ﺧ/د/ذ/ر/ز/ﺳ/ﺷ/ﺻ/ﺿ/ط/ظ/ﻋ/ﻏ/¦/¬/÷/×/ع/ـ/ﻓ/ﻗ/ﻛ/ﻟ/ﻣ/ﻧ/ﻫ/و/ى/ﻳ/ض/ﻌ/ﻎ/غ/م/ن/ه/ﻬ/ﻰ/ﻲ/ﻐ/ق/ﻵ/ﻶ/ل/ك/ي";
+    allLettres = "ﻷ/ﻸ/ﻻ/ﻼ/­ﺂ/£/¤/ﺄ/ﺎ/ب/ت/ث/،/ج/ح/خ/٠/١/٢/٣/٤/٥/٦/٧/٨/٩/ف/؛/س/ش/ص/؟/¢/ء/آ/أ/ؤ/ﻊ/ﺋ/ا/ﺑ/ة/ﺗ/ﺛ/ﺟ/ﺣ/ﺧ/د/ذ/ر/ز/ﺳ/ﺷ/ﺻ/ﺿ/ط/ظ/ﻋ/ﻏ/¦/¬/÷/×/ع/ـ/ﻓ/ﻗ/ﻛ/ﻟ/ﻣ/ﻧ/ﻫ/و/ى/ﻳ/ض/ﻌ/ﻎ/غ/م/ن/ه/ﻬ/ﻰ/ﻲ/ﻐ/ق/ﻵ/ﻶ/ل/ك/ي";
 }
 
 void Recognition::loadLabels(QString labels)
 {
-    AllLettres = labels;
+    allLettres = labels;
 }
 
 Mat Recognition::getTestingSet(QList<Mat> CharactersSet)
@@ -27,10 +27,9 @@ Mat Recognition::getTestingSet(QList<Mat> CharactersSet)
     for (int i = 0; i < sequanceVectorsSet.length(); ++i)
     {
         QList<float> list = sequanceVectorsSet.at(i);
-        for (int j = 0; j < list.length(); ++j)
-        {
+        for (int j = 0; j < list.length(); ++j)        
             TestingSet.at<float>(i, j) = list.at(j);
-        }
+
     }
 
     sequanceVectorsSet.clear();
@@ -51,10 +50,8 @@ Mat Recognition::getTrainingSet(QList<Mat> CharactersSet)
     for (int i = 0; i < sequanceVectorsSet.length(); ++i)
     {
         QList<float> list = sequanceVectorsSet.at(i);
-        for (int j = 0; j < list.length(); ++j)
-        {
-            trainingSet.at<float>(i, j) = list.at(j);
-        }
+        for (int j = 0; j < list.length(); ++j)       
+            trainingSet.at<float>(i, j) = list.at(j);        
     }
 
     sequanceVectorsSet.clear();
@@ -109,26 +106,26 @@ void Recognition::saveTraining(QString fileName)
 
 QString Recognition::recognize(Mat TestingSet)
 {
-    QStringList list = AllLettres.split(QRegularExpression("/")); // Temperary solution [ for model Characters ].
-    QString FinalResultToShow = "";
+    QStringList list = allLettres.split(QRegularExpression("/")); // Temperary solution [ for model Characters ].
+    QString finalResultToShow = "";
     charactersRecognized.create(TestingSet.rows, 1, CV_32FC1);
     svm->predict(TestingSet, charactersRecognized);
 
     for (int i = -1; i < charactersRecognized.rows - 1; i++)
     {
         int x = charactersRecognized.at<float>(i, 1);
-        FinalResultToShow = FinalResultToShow + list.at(x);
+        finalResultToShow = finalResultToShow + list.at(x);
     }
 
-    qDebug() << FinalResultToShow;
-    return FinalResultToShow;
+    qDebug() << finalResultToShow;
+    return finalResultToShow;
 }
 
 QString Recognition::recognizeTest(Mat TestingSet)
 {
-    QStringList list = AllLettres.split(QRegularExpression("/")); // Temperary solution [ for model Characters ].
+    QStringList list = allLettres.split(QRegularExpression("/")); // Temperary solution [ for model Characters ].
     // for(int i=0; i< list.length();i++) qDebug()<<list.at(i)<<endl;
-    QString FinalResultToShow = "";
+    QString finalResultToShow = "";
     charactersRecognized.create(TestingSet.rows, 1, CV_32FC1);
     svm->predict(TestingSet, charactersRecognized);
 
@@ -137,10 +134,10 @@ QString Recognition::recognizeTest(Mat TestingSet)
     {
         int x = charactersRecognized.at<float>(i, 1);
 
-        FinalResultToShow = FinalResultToShow + " " + list.at(x);
+        finalResultToShow = finalResultToShow + " " + list.at(x);
     }
-    qDebug() << FinalResultToShow;
-    return FinalResultToShow;
+    qDebug() << finalResultToShow;
+    return finalResultToShow;
 }
 
 QList<float> Recognition::extractFeaturesVector(Mat image)
@@ -196,10 +193,7 @@ int Recognition::countCXX(const Mat &image)
         int *row = (int *)label_image.ptr(y);
         for (int x = 0; x < label_image.cols; x++)
         {
-            if (row[x] != 1)
-            {
-                continue;
-            }
+            if (row[x] != 1) continue;
 
             Rect rect;
             floodFill(label_image, Point(x, y), label_count, &rect, 0, 0, 4);
@@ -211,11 +205,7 @@ int Recognition::countCXX(const Mat &image)
                 int *row2 = (int *)label_image.ptr(i);
                 for (int j = rect.x; j < (rect.x + rect.width); j++)
                 {
-                    if (row2[j] != label_count)
-                    {
-                        continue;
-                    }
-
+                    if (row2[j] != label_count) continue;
                     blob.push_back(Point2i(j, i));
                 }
             }
@@ -276,12 +266,10 @@ float Recognition::diagonalAverage(Mat mask)
 
 float Recognition::calculateWHRation(const Mat &image)
 {
-    return (float)image.cols / (float)image.rows;
-    ;
+    return (float)image.cols / (float)image.rows;    
 }
 
 float Recognition::calculateHWRation(const Mat &image)
 {
-    return (float)image.rows / (float)image.cols;
-    ;
+    return (float)image.rows / (float)image.cols;    
 }

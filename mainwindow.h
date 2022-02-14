@@ -40,88 +40,77 @@ private:
     QString fileName;
 
     QGraphicsScene *scene;
-    QGraphicsPixmapItem *item_pixmapIMG;
+    QGraphicsScene *sceneVerticalHistogram;
+    QGraphicsScene *sceneHorizontalHistogram;
 
-    // Vertical Histogram
-    QGraphicsScene *sceneVHist;
-    QGraphicsPixmapItem *item_pixmapIMG_VHist;
+    QGraphicsPixmapItem *pixmapItem;
+    QGraphicsPixmapItem *pixmapVerticalHistogram;
+    QGraphicsPixmapItem *pixmapHorizontalHistogram;
 
-    // Horizontal Histogram
-    QGraphicsScene *sceneHHist;
-    QGraphicsPixmapItem *item_pixmapIMG_HHist;
+    QImage sourceImage;
+    QImage scaledImage;
+    QImage binarizedImage;
+    QImage imageUnderProcess;
 
-    // images used.
-    QImage imgOrigin;
-    QImage imgScaled;
-    QImage imgBinarized;
-    QImage imgInProcessus;
-
-    // OpenCV
-    Mat _imgOrigin;
-    Mat _imgInProcessus;
-    Mat _imgGray;
-    Mat _imgRGB;
-    Mat _imgBW;
-    Mat _imgBX_INV;
-
+    Mat sourceMat;
+    Mat matUnderProcess;
+    Mat grayMat;
+    Mat rgbMat;
+    Mat binarizedMat;
+    Mat invertedBinarizedMat;
     Mat trainSet;
     Mat testingSet;
 
+    QList<Mat> allCharacters;
     QList<Mat> allWordsImages;
-    QList<Mat> CharactersSet;
+    QList<Mat> charactersSet;
 
     // Mat _imgCountor;
-    VideoCapture _WebCam;
+    VideoCapture camera;
+    bool exitCamera;
 
-    bool exitCam;
-
-    //!
     int binVal;
     int numberPagePDF;
     int wordImageNumber;
 
-    QList<Mat> ALLCHARACTERS;
-
-    // Histogram Data.
-    QList<int> histData;
+    QList<int> histogramDataPoints;
 
     // PDF ATTRIBUTE.
     std::unique_ptr<Document> document;
     std::unique_ptr<Page> page;
     QSizeF PSizeF;
 
-    //!  >>>>>>>>>>>>>>>>>>>>>>>>>> METHODES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
     void display(const QImage &image, const QString message);
-    void displayHistogramme(const QImage &image);
+    void displayHistogram(const QImage &image);
     void activateButton(QPushButton *BT);
     void deactivateButton(QPushButton *BT);
 
-    QImage Mat2QImage(Mat const &src);
-    Mat QImage2Mat(QImage const &src);
+    QImage mat2QImage(Mat const &src);
+    Mat qImage2Mat(QImage const &src);
 
 private slots:
 
     void browse();
     void loadPDF();
-    void previous_page();
-    void next_page();
+    void previousPage();
+    void nextPage();
     void loadSpecificPage();
     void changeVisibility();
 
     //! SEGMENTATION
     void binarizationOTSU();
-    void binarizationGLOBALE(int Threshold);
+    void binarizationGlobal(int Threshold);
     void thinning();
-    void countor();
+    void contour();
     void CXX();
     void skew();
 
     //! PREPROCESSUSING
-    void segmenteEntierDocument();
+    void segmentEntireDocument();
     void cutCharacters();
 
     //! RECOGNITION
@@ -142,7 +131,7 @@ private slots:
 
     void buttonsChangeColors();
     void loadLabels();
-    void saveImg();
+    void saveImage();
     void reset();
     void about();
 };

@@ -18,7 +18,7 @@ Mat Preprocess::binarizationOTSU(const Mat &image)
     return _imgBW;
 }
 
-Mat Preprocess::binarizationGLOBALE(const Mat &image, int Threshold)
+Mat Preprocess::binarizationGlobal(const Mat &image, int Threshold)
 {
     Mat _imgInProcessus;
     Mat _imgBW;
@@ -28,7 +28,7 @@ Mat Preprocess::binarizationGLOBALE(const Mat &image, int Threshold)
     cvtColor(_imgInProcessus, _imgBW, CV_RGB2GRAY);
 
     //!  Glabale Threshold [ Suit the Printer ].
-    cv::threshold(_imgBW, _imgBW, Threshold, 255, CV_THRESH_BINARY);
+    threshold(_imgBW, _imgBW, Threshold, 255, CV_THRESH_BINARY);
     return _imgBW;
 }
 
@@ -54,10 +54,7 @@ Mat Preprocess::convert2cxx(const Mat &image)
         int *row = (int *)label_image.ptr(y);
         for (int x = 0; x < label_image.cols; x++)
         {
-            if (row[x] != 1)
-            {
-                continue;
-            }
+            if (row[x] != 1) continue;
 
             Rect rect;
             floodFill(label_image, Point(x, y), label_count, &rect, 0, 0, 4);
@@ -69,11 +66,7 @@ Mat Preprocess::convert2cxx(const Mat &image)
                 int *row2 = (int *)label_image.ptr(i);
                 for (int j = rect.x; j < (rect.x + rect.width); j++)
                 {
-                    if (row2[j] != label_count)
-                    {
-                        continue;
-                    }
-
+                    if (row2[j] != label_count) continue;
                     blob.push_back(Point2i(j, i));
                 }
             }
@@ -169,73 +162,71 @@ Mat Preprocess::computeSkewAndRotate(Mat image)
 Mat Preprocess::contour(const Mat &image)
 {
     int x; // Parametre of dicision <point is contour or not>.
-    int black = 0;
-    pos Pos;
-    QList<pos> X; // Only Pixels of the Contour Marked.
-    Mat _imgCountor = image.clone();
+    int whiteColor = 255;
+    pos point;
+    QList<pos> contourPointsFound; // keeping contour points only.
+    Mat contourMat = image.clone();
     for (int j = 1; j < image.cols - 1; j++)
     {
         for (int i = 1; i < image.rows - 1; i++)
         {
-            X.clear();
+            contourPointsFound.clear();
             x = 0;
-            if (image.at<uchar>(i, j) == black)
+            if (image.at<uchar>(i, j) == whiteColor)
                 x++;
             else
             {
-                Pos.x = i;
-                Pos.y = j;
-                X << Pos;
+                point.x = i;
+                point.y = j;
+                contourPointsFound << point;
             }
 
-            if (image.at<uchar>(i + 1, j) == black)
+            if (image.at<uchar>(i + 1, j) == whiteColor)
                 x++;
             else
             {
-                Pos.x = i + 1;
-                Pos.y = j;
-                X << Pos;
+                point.x = i + 1;
+                point.y = j;
+                contourPointsFound << point;
             }
 
-            if (image.at<uchar>(i, j + 1) == black)
+            if (image.at<uchar>(i, j + 1) == whiteColor)
                 x++;
             else
             {
-                Pos.x = i;
-                Pos.y = j + 1;
-                X << Pos;
+                point.x = i;
+                point.y = j + 1;
+                contourPointsFound << point;
             }
 
-            if (image.at<uchar>(i + 1, j + 1) == black)
+            if (image.at<uchar>(i + 1, j + 1) == whiteColor)
                 x++;
             else
             {
-                Pos.x = i + 1;
-                Pos.y = j + 1;
-                X << Pos;
+                point.x = i + 1;
+                point.y = j + 1;
+                contourPointsFound << point;
             }
 
             if (x > 0)
             { //! Draw The ONLY Contour In New MATRIX.
-                for (int k = 0; k < X.length(); k++)
+                for (int k = 0; k < contourPointsFound.length(); k++)
                 {
-                    _imgCountor.at<uchar>((X.at(k)).x, (X.at(k)).y) = 87;
+                    contourMat.at<uchar>((contourPointsFound.at(k)).x, (contourPointsFound.at(k)).y) = 87;
                 }
             }
         }
     }
-    // Remove Black pixels, Only contour remain IN BLACK.
-    for (int j = 1; j < _imgCountor.cols; j++)
-    {
-        for (int i = 1; i < _imgCountor.rows; i++)
+    // Remove white pixels, Only contour remain in white.
+    for (int j = 1; j < contourMat.cols; j++)
+        for (int i = 1; i < contourMat.rows; i++)
         {
-            if (_imgCountor.at<uchar>(i, j) == black)
-                _imgCountor.at<uchar>(i, j) = 255;
-            if (_imgCountor.at<uchar>(i, j) == 87)
-                _imgCountor.at<uchar>(i, j) = 0;
-        }
-    }
-    return _imgCountor;
+            if (contourMat.at<uchar>(i, j) == whiteColor)
+                contourMat.at<uchar>(i, j) = 0;
+            if (contourMat.at<uchar>(i, j) == 87)
+                contourMat.at<uchar>(i, j) = 255;
+        }    
+    return contourMat;
 }
 
 Mat Preprocess::Thinning(Mat image)

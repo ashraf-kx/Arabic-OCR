@@ -23,16 +23,16 @@ private:
 public:
     explicit Preprocess(QObject *parent = 0);
 
-    Mat binarizationOTSU(const Mat &image); //! [ 1 ]
-    Mat binarizationGLOBALE(const Mat &image, int Threshold);
-    Mat contour(const Mat &image);       //! [ 2 ]
-    Mat convert2cxx(const Mat &binary);  //! [ 3 ]
-    Mat computeSkewAndRotate(Mat image); //! [ 4 ]
+    Mat binarizationOTSU(const Mat &image);
+    Mat binarizationGlobal(const Mat &image, int Threshold);
+    Mat contour(const Mat &image);
+    Mat convert2cxx(const Mat &binary);
+    Mat computeSkewAndRotate(Mat image);
     Mat Thinning(Mat image);
-    Mat copyRect(const Mat &image, int x1, int y1, int x2, int y2); //! [ 5 ]
+    Mat copyRect(const Mat &image, int x1, int y1, int x2, int y2);
 
-    void thinningIteration(Mat &im, int iter); //! [ 6 ]
-    void thinning(Mat &im);                    //! [ 7 ]
+    void thinningIteration(Mat &im, int iter);
+    void thinning(Mat &im);
 };
 
 #endif // PREPROCESS_H

@@ -23,16 +23,16 @@ class Segmentation : public QObject
 {
     Q_OBJECT
 private:
-    Mat _imgBW;
+    Mat binarizedMat;
 
     Mat Visualization_V;
     Mat Visualization_H;
-    QImage imgInProcessus;
+    QImage imageUnderProcess;
 
-    enum HistType
+    enum HistogramType
     {
-        V_Hist,
-        H_Hist
+        VERTICAL,
+        HORIZONTAL
     };
 
     int w; // just for the test.
@@ -77,13 +77,13 @@ public:
     QList<Mat> getCharactersInWord(Mat image, QList<int> posCuts);
     void getPosCutWord(Mat imageLine, int lineNbr);
     int mostRedundantValue(QList<int> list);
-    QList<int> calculateBackProjection(Mat imageIn, HistType type);
-    Mat smoothingHistogramme(Mat image);
+    QList<int> calculateBackProjection(Mat imageIn, HistogramType type);
+    Mat smoothingHistogram(Mat image);
     static Mat copyRect(Mat image, int x1, int y1, int x2, int y2);
     static Mat characterNormalization(Mat image);
     QList<Mat> cutLine2Characters(QList<Mat> listImagesLines, int i);
     QList<Mat> getAllImagesLines(Mat image);
-    QList<Mat> segmenteEntierDocument(Mat image);
+    QList<Mat> segmentEntireDocument(Mat image);
     void lineDetection(QList<int> HistDATA);
     void wordsDetection();
     int averageLineHeight(QList<int> list);

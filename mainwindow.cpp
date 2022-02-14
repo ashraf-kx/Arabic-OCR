@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->graphicsView_VHist->setMaximumWidth(0);
 
     scene = new QGraphicsScene();
-    sceneVHist = new QGraphicsScene();
+    sceneVerticalHistogram = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
     ui->graphicsView_VHist->setVisible(false);
@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->actionRestart, SIGNAL(triggered()), this, SLOT(reset()));
     connect(ui->actionFullScreen, SIGNAL(triggered()), this, SLOT(showFullScreen()));
     connect(ui->actionExit_FullScreen, SIGNAL(triggered()), this, SLOT(showMaximized()));
-    connect(ui->actionSave_Image, SIGNAL(triggered()), this, SLOT(saveImg()));
+    connect(ui->actionSave_Image, SIGNAL(triggered()), this, SLOT(saveImage()));
     connect(ui->actionCapture_photo, SIGNAL(triggered()), this, SLOT(startCamera()));
     connect(ui->actionShow_photo, SIGNAL(triggered()), this, SLOT(stopCapture()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
@@ -62,8 +62,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // connect(ui->horizontalSlider_threshold,SIGNAL(valueChanged(int)),ui->labelThreshold,SLOT(setNum(int)));
 
     // Buttons
-    connect(ui->Bt_PDF_Back, SIGNAL(clicked()), this, SLOT(previous_page()));
-    connect(ui->Bt_PDF_Forword, SIGNAL(clicked()), this, SLOT(next_page()));
+    connect(ui->Bt_PDF_Back, SIGNAL(clicked()), this, SLOT(previousPage()));
+    connect(ui->Bt_PDF_Forword, SIGNAL(clicked()), this, SLOT(nextPage()));
     connect(ui->Bt_next_word, SIGNAL(clicked()), this, SLOT(moveToNextWord()));
     connect(ui->Bt_previous_word, SIGNAL(clicked()), this, SLOT(moveToPreviousWord()));
     connect(ui->Bt_trainingPhase, SIGNAL(clicked()), this, SLOT(changeVisibility()));
@@ -71,14 +71,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // Preprocessing
     connect(ui->Bt_2binarization, SIGNAL(clicked()), this, SLOT(binarizationOTSU()));
-    connect(ui->Bt_ContourDetection, SIGNAL(clicked()), this, SLOT(countor()));
+    connect(ui->Bt_ContourDetection, SIGNAL(clicked()), this, SLOT(contour()));
     connect(ui->Bt_thining, SIGNAL(clicked()), this, SLOT(thinning()));
     connect(ui->Bt_CXX, SIGNAL(clicked()), this, SLOT(CXX()));
     connect(ui->Bt_CorrectSkew, SIGNAL(clicked()), this, SLOT(skew()));
-    connect(ui->HSliderBinarization, SIGNAL(valueChanged(int)), this, SLOT(binarizationGLOBALE(int)));
+    connect(ui->HSliderBinarization, SIGNAL(valueChanged(int)), this, SLOT(binarizationGlobal(int)));
 
     // Segmentation
-    connect(ui->Bt_segmente_to_words, SIGNAL(clicked()), this, SLOT(segmenteEntierDocument()));
+    connect(ui->Bt_segmente_to_words, SIGNAL(clicked()), this, SLOT(segmentEntireDocument()));
     connect(ui->Bt_cut_word, SIGNAL(clicked()), this, SLOT(cutCharacters()));
 
     // Recognition
@@ -96,79 +96,79 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 //!                PREPROCESSUS
 void MainWindow::binarizationOTSU()
 {
-    _imgInProcessus = preprocessing->binarizationOTSU(_imgRGB);
+    matUnderProcess = preprocessing->binarizationOTSU(rgbMat);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "image binarizated.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "image binarizated.");
     activateButton(ui->Bt_2binarization);
 }
 
-void MainWindow::binarizationGLOBALE(int Threshold)
+void MainWindow::binarizationGlobal(int Threshold)
 {
-    _imgInProcessus = preprocessing->binarizationGLOBALE(_imgRGB, Threshold);
+    matUnderProcess = preprocessing->binarizationGlobal(rgbMat, Threshold);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "image binarizated." + QString::number(Threshold));
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "image binarizated." + QString::number(Threshold));
     activateButton(ui->Bt_2binarization);
 }
 
 void MainWindow::thinning()
 {
-    _imgInProcessus = preprocessing->Thinning(_imgInProcessus);
+    matUnderProcess = preprocessing->Thinning(matUnderProcess);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "Thinning Done.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "Thinning Done.");
     activateButton(ui->Bt_thining);
 }
 
-void MainWindow::countor()
+void MainWindow::contour()
 {
-    _imgInProcessus = preprocessing->contour(_imgInProcessus);
+    matUnderProcess = preprocessing->contour(matUnderProcess);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "Detection Countor.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "Detection Countor.");
     activateButton(ui->Bt_ContourDetection);
 }
 
 void MainWindow::CXX()
 {
-    _imgInProcessus = preprocessing->convert2cxx(_imgInProcessus);
+    matUnderProcess = preprocessing->convert2cxx(matUnderProcess);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "Connexe Compenent.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "Connexe Compenent.");
     activateButton(ui->Bt_CXX);
 }
 
 void MainWindow::skew()
 {
-    _imgInProcessus = preprocessing->computeSkewAndRotate(_imgInProcessus);
+    matUnderProcess = preprocessing->computeSkewAndRotate(matUnderProcess);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "Skew Corrected.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "Skew Corrected.");
     activateButton(ui->Bt_CorrectSkew);
 }
 
 //!  SEGMENTATION
-void MainWindow::segmenteEntierDocument()
+void MainWindow::segmentEntireDocument()
 {
-    CharactersSet.clear();
-    CharactersSet = segmentation->segmenteEntierDocument(_imgInProcessus);
-    for (int i = 0; i < CharactersSet.length(); ++i)
+    charactersSet.clear();
+    charactersSet = segmentation->segmentEntireDocument(matUnderProcess);
+    for (int i = 0; i < charactersSet.length(); ++i)
     {
         // imwrite("/home/ash/Desktop/XC1/Model/"+QString::number(i).toStdString()+".png",CharactersSet.at(i));
     }
     activateButton(ui->Bt_next_word);
     activateButton(ui->Bt_previous_word);
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "Document Segmented Into " + QString::number(CharactersSet.length()) + " Character.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "Document Segmented Into " + QString::number(charactersSet.length()) + " Character.");
     activateButton(ui->Bt_segmente_to_words);
 }
 
@@ -176,37 +176,37 @@ void MainWindow::cutCharacters()
 {
     QList<Mat> CharactersSubSet;
     CharactersSubSet.clear();
-    CharactersSet.clear();
+    charactersSet.clear();
 
-    QList<Mat> LinesSet = segmentation->getAllImagesLines(_imgInProcessus);
+    QList<Mat> LinesSet = segmentation->getAllImagesLines(matUnderProcess);
     for (int i = 0; i < LinesSet.length(); i++)
     {
         CharactersSubSet = segmentation->cutLine2Characters(LinesSet, i);
         for (int j = CharactersSubSet.length() - 1; j >= 0; --j)
         {
-            CharactersSet << CharactersSubSet.at(j);
+            charactersSet << CharactersSubSet.at(j);
             // imwrite("/home/ash/Desktop/XC1/Characters/"+QString::number(CharactersSubSet.length()-1-j).toStdString()+".png",CharactersSubSet.at(j));
         }
         // imwrite("/home/ash/Desktop/XC1/Lines/"+QString::number(i).toStdString()+".png",LinesSet.at(i));
     }
 
-    imgInProcessus = QImage((uchar *)_imgInProcessus.data, _imgInProcessus.cols, _imgInProcessus.rows, _imgInProcessus.step, QImage::Format_Indexed8);
-    imgInProcessus.bits();
-    display(imgInProcessus, "Set Of " + QString::number(CharactersSet.length()) + " Character Image Located.");
+    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
+    imageUnderProcess.bits();
+    display(imageUnderProcess, "Set Of " + QString::number(charactersSet.length()) + " Character Image Located.");
     activateButton(ui->Bt_cut_word);
 }
 
 //!                RECOGNITION
 void MainWindow::extractTrainingData()
 {
-    trainSet = recognition->getTrainingSet(CharactersSet);
+    trainSet = recognition->getTrainingSet(charactersSet);
     activateButton(ui->BT_getFeatureSetTraining);
     ui->statusBar->showMessage("Train Data Extracted.", 10000);
 }
 
 void MainWindow::extractTestingData()
 {
-    testingSet = recognition->getTestingSet(CharactersSet);
+    testingSet = recognition->getTestingSet(charactersSet);
     activateButton(ui->Bt_getTestingSet);
     ui->statusBar->showMessage("Test Data Extracted.", 10000);
 }
@@ -285,11 +285,11 @@ void MainWindow::loadPDF()
         page = document->page(0);
         qDebug() << "PDF page size: " + QString::number(page->pageSize().width()) + "x" + QString::number(page->pageSize().height());
         // NOTE: Paramtres for "renderToImage(1,1)" result in image size : 8.5x11 (Do the math).
-        imgInProcessus = page->renderToImage(900 / 8.5, 1360 / 11);
-        _imgRGB = QImage2Mat(imgInProcessus);
-        qDebug() << "Image size (rendered from PDF): " + QString::number(_imgRGB.size().width) + "x" + QString::number(_imgRGB.size().height);
+        imageUnderProcess = page->renderToImage(900 / 8.5, 1360 / 11);
+        rgbMat = qImage2Mat(imageUnderProcess);
+        qDebug() << "Image size (rendered from PDF): " + QString::number(rgbMat.size().width) + "x" + QString::number(rgbMat.size().height);
         ui->PDF_Label->setText(QString::number(document->numPages()));
-        display(page->renderToImage(900 / 8.5, 1360 / 11), "PDF displayed as an image at a resolution of : " + QString::number(imgInProcessus.format()));
+        display(page->renderToImage(900 / 8.5, 1360 / 11), "PDF displayed as an image at a resolution of : " + QString::number(imageUnderProcess.format()));
         ui->widget->setEnabled(true);
         ui->widget->setVisible(true);
         ui->SB_PDF->setMaximum(document->numPages());
@@ -307,39 +307,39 @@ void MainWindow::loadSpecificPage()
     {
         page = document->page(numberPagePDF);
         PSizeF = page->pageSizeF();
-        imgInProcessus = page->renderToImage(900 / 8.5, 1360 / 11);
-        _imgRGB = QImage2Mat(imgInProcessus);
-        display(imgInProcessus, "PDF page : " + QString::number(numberPagePDF));
+        imageUnderProcess = page->renderToImage(900 / 8.5, 1360 / 11);
+        rgbMat = qImage2Mat(imageUnderProcess);
+        display(imageUnderProcess, "PDF page : " + QString::number(numberPagePDF));
         ui->SB_PDF->setValue(numberPagePDF);
     }
 }
 
-void MainWindow::next_page()
+void MainWindow::nextPage()
 {
     numberPagePDF++;
     if (document->numPages() > numberPagePDF)
     {
         page = document->page(numberPagePDF);
         PSizeF = page->pageSizeF();
-        imgInProcessus = page->renderToImage(900 / 8.5, 1360 / 11);
-        _imgRGB = QImage2Mat(imgInProcessus);
-        display(imgInProcessus, "PDF page : " + QString::number(numberPagePDF));
+        imageUnderProcess = page->renderToImage(900 / 8.5, 1360 / 11);
+        rgbMat = qImage2Mat(imageUnderProcess);
+        display(imageUnderProcess, "PDF page : " + QString::number(numberPagePDF));
         ui->SB_PDF->setValue(numberPagePDF);
     }
     else
         numberPagePDF--;
 }
 
-void MainWindow::previous_page()
+void MainWindow::previousPage()
 {
     numberPagePDF--;
     if (numberPagePDF > 0)
     {
         page = document->page(numberPagePDF);
         PSizeF = page->pageSizeF();
-        imgInProcessus = page->renderToImage();
-        _imgRGB = QImage2Mat(imgInProcessus);
-        display(imgInProcessus, "PDF page : " + QString::number(numberPagePDF));
+        imageUnderProcess = page->renderToImage();
+        rgbMat = qImage2Mat(imageUnderProcess);
+        display(imageUnderProcess, "PDF page : " + QString::number(numberPagePDF));
         ui->SB_PDF->setValue(numberPagePDF);
     }
     else
@@ -349,18 +349,18 @@ void MainWindow::previous_page()
 void MainWindow::moveToNextWord()
 {
     wordImageNumber++;
-    if (wordImageNumber < CharactersSet.length())
+    if (wordImageNumber < charactersSet.length())
     {
-        _imgBW = CharactersSet.at(wordImageNumber);
-        imgInProcessus = QImage((uchar *)_imgBW.data, _imgBW.cols, _imgBW.rows, _imgBW.step, QImage::Format_Indexed8);
-        imgInProcessus.bits();
+        binarizedMat = charactersSet.at(wordImageNumber);
+        imageUnderProcess = QImage((uchar *)binarizedMat.data, binarizedMat.cols, binarizedMat.rows, binarizedMat.step, QImage::Format_Indexed8);
+        imageUnderProcess.bits();
 
-        ui->Lb_nbrWords->setText(QString::number(wordImageNumber + 1) + " /" + QString::number(CharactersSet.length()));
-        display(imgInProcessus, "Word number :" + QString::number(wordImageNumber));
+        ui->Lb_nbrWords->setText(QString::number(wordImageNumber + 1) + " /" + QString::number(charactersSet.length()));
+        display(imageUnderProcess, "Word number :" + QString::number(wordImageNumber));
     }
     else
     {
-        wordImageNumber = CharactersSet.length() - 1;
+        wordImageNumber = charactersSet.length() - 1;
     }
 }
 
@@ -369,12 +369,12 @@ void MainWindow::moveToPreviousWord()
     wordImageNumber--;
     if (wordImageNumber >= 0)
     {
-        _imgBW = CharactersSet.at(wordImageNumber);
-        imgInProcessus = QImage((uchar *)_imgBW.data, _imgBW.cols, _imgBW.rows, _imgBW.step, QImage::Format_Indexed8);
-        imgInProcessus.bits();
+        binarizedMat = charactersSet.at(wordImageNumber);
+        imageUnderProcess = QImage((uchar *)binarizedMat.data, binarizedMat.cols, binarizedMat.rows, binarizedMat.step, QImage::Format_Indexed8);
+        imageUnderProcess.bits();
 
-        ui->Lb_nbrWords->setText(QString::number(wordImageNumber) + " /" + QString::number(CharactersSet.length()));
-        display(imgInProcessus, "Word number :" + QString::number(wordImageNumber));
+        ui->Lb_nbrWords->setText(QString::number(wordImageNumber) + " /" + QString::number(charactersSet.length()));
+        display(imageUnderProcess, "Word number :" + QString::number(wordImageNumber));
     }
     else
     {
@@ -385,7 +385,7 @@ void MainWindow::moveToPreviousWord()
 void MainWindow::startCamera()
 {
     ui->actionCapture_photo->setDisabled(true);
-    this->exitCam = true;
+    this->exitCamera = true;
     VideoCapture _WebCam(0); // Open The Default Camera.
     if (!_WebCam.isOpened()) // Check If We Succeeded.
         ui->statusBar->showMessage("Failed");
@@ -395,32 +395,32 @@ void MainWindow::startCamera()
         Mat _tmp;
         _WebCam >> frame;
         imshow("Origine : ", frame); // get a new frame from camera
-        _imgRGB = frame;
-        GaussianBlur(frame, _imgInProcessus, Size(1, 3), 0, 0);
-        cvtColor(_imgInProcessus, _imgInProcessus, CV_BGR2RGB);
-        cvtColor(_imgInProcessus, _imgGray, CV_RGB2GRAY);
+        rgbMat = frame;
+        GaussianBlur(frame, matUnderProcess, Size(1, 3), 0, 0);
+        cvtColor(matUnderProcess, matUnderProcess, CV_BGR2RGB);
+        cvtColor(matUnderProcess, grayMat, CV_RGB2GRAY);
         //! [ MAKE Choice between (Otsu<Globale> || Gaussian< Adaptative> ]  04/03/2015  19:36.
-        threshold(_imgGray, _tmp, 0, 255, CV_THRESH_BINARY + CV_THRESH_OTSU);                             // Gloable Otsu.
-        adaptiveThreshold(_imgGray, _imgBW, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2); // Adaptative Gausian.
+        threshold(grayMat, _tmp, 0, 255, CV_THRESH_BINARY + CV_THRESH_OTSU);                             // Gloable Otsu.
+        adaptiveThreshold(grayMat, binarizedMat, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 2); // Adaptative Gausian.
 
         imshow("Otsu Binarization", preprocessing->copyRect(_tmp, 25, 25, 480, 480));
         // imshow("Gaussian+ Binarization", _imgBW);
 
         if (waitKey(30) >= 0)
             break;
-    } while (this->exitCam);
+    } while (this->exitCamera);
     // the camera will be deinitialized automatically in VideoCapture destructor
 }
 
 void MainWindow::stopCapture()
 {
-    this->exitCam = false;
+    this->exitCamera = false;
     ui->widget->setEnabled(true);
     ui->actionCapture_photo->setDisabled(false);
 }
 
 //! >>>>>>>>>>>>>>>>>>>>>>>>>> EXTRA METHODES TO HELP >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-QImage MainWindow::Mat2QImage(Mat const &src)
+QImage MainWindow::mat2QImage(Mat const &src)
 {
     Mat temp;                        // make the same Mat
     cvtColor(src, temp, CV_BGR2RGB); // cvtColor Makes a copt, that what i need
@@ -430,21 +430,21 @@ QImage MainWindow::Mat2QImage(Mat const &src)
     return dest;
 }
 
-Mat MainWindow::QImage2Mat(QImage const &src)
+Mat MainWindow::qImage2Mat(QImage const &src)
 {
     Mat tmp(src.height(), src.width(), CV_8UC4, (uchar *)src.bits(), src.bytesPerLine());
     cvtColor(tmp, tmp, CV_RGBA2RGB);
     return tmp;
 }
 
-void MainWindow::saveImg()
+void MainWindow::saveImage()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"));
-    if (!fileName.isEmpty() && !imgInProcessus.isNull())
+    if (!fileName.isEmpty() && !imageUnderProcess.isNull())
     {
         QDateTime dateTime = QDateTime::currentDateTime();
         QString dateTimeString = dateTime.toString("ss mm HH ddd MMMM d yy");
-        imgInProcessus.save(fileName + " " + dateTimeString + ".png");
+        imageUnderProcess.save(fileName + " " + dateTimeString + ".png");
         ui->statusBar->showMessage("Picture Saved.", 10000);
     }
 }
@@ -459,20 +459,20 @@ void MainWindow::about()
 
 void MainWindow::display(const QImage &image, const QString message)
 {
-    item_pixmapIMG = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     scene->clear();
-    scene->addItem(item_pixmapIMG);
+    scene->addItem(pixmapItem);
     ui->graphicsView->update();
     QString msg = message + " :" + QString::number(image.width()) + "X" + QString::number(image.height());
     ui->statusBar->showMessage(msg, 10000);
 }
 
-void MainWindow::displayHistogramme(const QImage &image)
+void MainWindow::displayHistogram(const QImage &image)
 {
-    item_pixmapIMG_VHist = new QGraphicsPixmapItem(QPixmap::fromImage(image));
-    sceneVHist->clear();
-    sceneVHist->addItem(item_pixmapIMG_VHist);
-    ui->graphicsView_VHist->setScene(sceneVHist);
+    pixmapVerticalHistogram = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    sceneVerticalHistogram->clear();
+    sceneVerticalHistogram->addItem(pixmapVerticalHistogram);
+    ui->graphicsView_VHist->setScene(sceneVerticalHistogram);
     ui->graphicsView_VHist->setMinimumWidth(10);
     ui->graphicsView_VHist->update();
 }
@@ -485,14 +485,14 @@ void MainWindow::browse()
         ui->widget->setVisible(true);
         ui->widget->setEnabled(true);
 
-        _imgRGB = imread(fileName.toStdString());
-        _imgGray = imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
+        rgbMat = imread(fileName.toStdString());
+        grayMat = imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
 
-        imgOrigin = Mat2QImage(_imgRGB);
-        imgInProcessus = imgOrigin;
+        sourceImage = mat2QImage(rgbMat);
+        imageUnderProcess = sourceImage;
 
         //! Display Image.
-        display(imgInProcessus, "Image loaded.");
+        display(imageUnderProcess, "Image loaded.");
         buttonsChangeColors();
     }
 }
@@ -504,19 +504,19 @@ void MainWindow::reset()
     ui->TE_FinalText->setVisible(false);
     scene->clear();
 
-    _imgOrigin.release();
-    _imgInProcessus.release();
-    _imgGray.release();
-    _imgRGB.release();
-    _imgBW.release();
-    _imgBX_INV.release();
+    sourceMat.release();
+    matUnderProcess.release();
+    grayMat.release();
+    rgbMat.release();
+    binarizedMat.release();
+    invertedBinarizedMat.release();
     // Visualization_V.release();
     // Visualization_H.release();
 
     // geoLines.clear();
     // geoWords.clear();
     allWordsImages.clear();
-    histData.clear();
+    histogramDataPoints.clear();
     fileName.clear();
 
     document = NULL;

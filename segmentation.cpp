@@ -2,15 +2,16 @@
 
 Segmentation::Segmentation(QObject *parent) : QObject(parent)
 {
+
 }
 
-QList<int> Segmentation::calculateBackProjection(Mat imageIn, HistType type)
+QList<int> Segmentation::calculateBackProjection(Mat imageIn, HistogramType type)
 {
     int x = 0;
     QList<int> list;
     list.clear();
 
-    if (type == H_Hist)
+    if (type == HORIZONTAL)
     {
         for (int i = 0; i < imageIn.rows; ++i)
         {
@@ -42,7 +43,7 @@ QList<int> Segmentation::calculateBackProjection(Mat imageIn, HistType type)
 void Segmentation::getPosCutWord(Mat imageLine, int lineNbr)
 {
     // Vertical Histogram.
-    QList<int> HistLineData = calculateBackProjection(imageLine, V_Hist);
+    QList<int> HistLineData = calculateBackProjection(imageLine, VERTICAL);
 
     // word Calculate position of cuts.
     bool lock = false;
@@ -130,18 +131,18 @@ void Segmentation::wordsDetection()
     for (int i = 0; i < geoLines.length(); i++)
     {
         // complicated, but under Control [ Histogram Smoothing needed MAYBE ].
-        this->getPosCutWord(copyRect(_imgBW, (geoLines.at(i)).start, 0, (geoLines.at(i)).end, _imgBW.cols), i);
+        this->getPosCutWord(copyRect(binarizedMat, (geoLines.at(i)).start, 0, (geoLines.at(i)).end, binarizedMat.cols), i);
     }
 }
 
-QList<Mat> Segmentation::segmenteEntierDocument(Mat image)
+QList<Mat> Segmentation::segmentEntireDocument(Mat image)
 {
-    image.copyTo(_imgBW);
+    image.copyTo(binarizedMat);
     QList<Mat> allWordsImages;
     allWordsImages.clear();
 
     // Vertical Histogram.
-    QList<int> H_HistDATA = calculateBackProjection(_imgBW, H_Hist);
+    QList<int> H_HistDATA = calculateBackProjection(binarizedMat, HORIZONTAL);
 
     int max = 0;
     for (int i = 0; i < H_HistDATA.length(); i++)
@@ -150,18 +151,18 @@ QList<Mat> Segmentation::segmenteEntierDocument(Mat image)
 
     // Drawing the Histogram.
     Mat histImage;
-    histImage.create(_imgBW.rows, max, CV_8UC1);
+    histImage.create(binarizedMat.rows, max, CV_8UC1);
 
     for (int i = 0; i < histImage.rows; ++i)
         for (int j = 0; j < histImage.cols; ++j)
             histImage.at<uchar>(i, j) = 0;
 
-    for (int i = 0; i < _imgBW.rows; ++i)
+    for (int i = 0; i < binarizedMat.rows; ++i)
         for (int j = 0; j < H_HistDATA.at(i); ++j)
             histImage.at<uchar>(i, j) = 240;
 
     imshow("H Histogramme ", histImage);
-    histImage = smoothingHistogramme(histImage);
+    histImage = smoothingHistogram(histImage);
     imshow("H Histogramme S", histImage);
     // END DRAWING.
 
@@ -171,28 +172,28 @@ QList<Mat> Segmentation::segmenteEntierDocument(Mat image)
 
     // Cut the Entier Image Into Small Pieces We call Them Words.
     for (int i = 0; i < geoWords.length(); ++i)
-        allWordsImages << copyRect(_imgBW, geoWords.at(i).x_start, geoWords.at(i).y_start, geoWords.at(i).x_end, geoWords.at(i).y_end);
+        allWordsImages << copyRect(binarizedMat, geoWords.at(i).x_start, geoWords.at(i).y_start, geoWords.at(i).x_end, geoWords.at(i).y_end);
 
     // Visualisation the Detection lines.
     for (int i = 0; i < geoLines.length(); i++)
-        for (int j = 0; j < _imgBW.cols; ++j)
+        for (int j = 0; j < binarizedMat.cols; ++j)
         {
-            _imgBW.at<uchar>((geoLines.at(i)).start, j) = 150;
-            _imgBW.at<uchar>((geoLines.at(i)).end, j) = 127;
+            binarizedMat.at<uchar>((geoLines.at(i)).start, j) = 150;
+            binarizedMat.at<uchar>((geoLines.at(i)).end, j) = 127;
         }
 
     // Visualisation the Detection words.
     for (int i = 0; i < geoWords.length(); ++i)
         for (int j = geoWords.at(i).x_start; j < geoWords.at(i).x_end; ++j)
         {
-            _imgBW.at<uchar>(j, geoWords.at(i).y_start) = 200;
-            _imgBW.at<uchar>(j, (geoWords.at(i)).y_end) = 130;
+            binarizedMat.at<uchar>(j, geoWords.at(i).y_start) = 200;
+            binarizedMat.at<uchar>(j, (geoWords.at(i)).y_end) = 130;
         }
 
     geoLines.clear();
     geoWords.clear();
 
-    _imgBW.copyTo(image);
+    binarizedMat.copyTo(image);
     return allWordsImages;
 }
 
@@ -201,9 +202,9 @@ QList<Mat> Segmentation::getAllImagesLines(Mat image)
     QList<Mat> allLinesImages;
     allLinesImages.clear();
 
-    image.copyTo(_imgBW);
+    image.copyTo(binarizedMat);
     // Vertical Histogram.
-    QList<int> H_HistDATA = calculateBackProjection(_imgBW, H_Hist);
+    QList<int> H_HistDATA = calculateBackProjection(binarizedMat, HORIZONTAL);
 
     //! [ 03/03/2015  21:49] CALL FOR METHODES <? Wandring ?>
     this->lineDetection(H_HistDATA);
@@ -211,19 +212,19 @@ QList<Mat> Segmentation::getAllImagesLines(Mat image)
     // Cut the Entier Image Into Small Pieces We call Them images  Lines.
     for (int i = 0; i < geoLines.length(); ++i)
     { // JAVAFX
-        allLinesImages << copyRect(_imgBW, geoLines.at(i).start, 0, geoLines.at(i).end, _imgBW.cols);
+        allLinesImages << copyRect(binarizedMat, geoLines.at(i).start, 0, geoLines.at(i).end, binarizedMat.cols);
     }
 
     // Visualisation the Detection lines.
     for (int i = 0; i < geoLines.length(); i++)
     {
-        for (int j = 0; j < _imgBW.cols; ++j)
+        for (int j = 0; j < binarizedMat.cols; ++j)
         {
-            _imgBW.at<uchar>((geoLines.at(i)).start, j) = 150;
-            _imgBW.at<uchar>((geoLines.at(i)).end, j) = 127;
+            binarizedMat.at<uchar>((geoLines.at(i)).start, j) = 150;
+            binarizedMat.at<uchar>((geoLines.at(i)).end, j) = 127;
         }
     }
-    _imgBW.copyTo(image);
+    binarizedMat.copyTo(image);
     return allLinesImages;
 }
 
@@ -333,7 +334,7 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         int PosBaseLine = 0;
         int max = 0;
 
-        HDataHist = calculateBackProjection(imageIn, H_Hist);
+        HDataHist = calculateBackProjection(imageIn, HORIZONTAL);
         // GET [x_Start-x_End] calculate THICKNESS [ 44% / 22%] >> [50% / 33%] >> Solution Inchallah [85% / 55%] >> Critic [20% / 20%]X
         // >> Emmm [85% / 70%]  >>
         int paramTop = 85;
@@ -356,7 +357,7 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         }
 
         // imageIn = contour(imageIn);
-        VDataHist = calculateBackProjection(imageIn, V_Hist);
+        VDataHist = calculateBackProjection(imageIn, VERTICAL);
         max = 0;
         for (int i = 0; i < VDataHist.length(); i++)
         {
@@ -387,7 +388,7 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         //  Entier New Pure Image.
         Mat part = copyRect(imageIn, x_Start, y_Start, x_End, y_End);
         // Getting the Right width of the zone BaseLine [ PROPOSED ].
-        HDataHist = calculateBackProjection(part, H_Hist);
+        HDataHist = calculateBackProjection(part, HORIZONTAL);
         for (int i = 0; i < HDataHist.length(); i++)
         {
             if (max < HDataHist.at(i))
@@ -404,7 +405,7 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         part = copyRect(imageIn, Start, y_Start, End, y_End);
         // imshow("Part Base Line",part);
 
-        VDataHist = calculateBackProjection(part, V_Hist);
+        VDataHist = calculateBackProjection(part, VERTICAL);
 
         //!**********************************************************************************
         Visualization_V.create(max, part.cols, CV_8UC1);
@@ -428,11 +429,11 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         // imshow("Before Vertical Projection",Visualization_V);
         GaussianBlur(Visualization_V, Visualization_V, Size(5, 5), 0, 0);
         cv::threshold(Visualization_V, Visualization_V, 127, 255, CV_THRESH_BINARY);
-        Visualization_V = smoothingHistogramme(Visualization_V);
+        Visualization_V = smoothingHistogram(Visualization_V);
         // imshow("After Vertical Projection",Visualization_V);
 
         //!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><
-        Hist_3 = calculateBackProjection(Visualization_V, V_Hist);
+        Hist_3 = calculateBackProjection(Visualization_V, VERTICAL);
         int threshold = mostRedundantValue(Hist_3);
         posCuts = cutWhereWhite(Hist_3);
         // Qdebug()<<"threshold of cutting based_On_Contour : "<<QString::number(threshold);
@@ -471,8 +472,8 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         // imshow("Base Line",showImage);
 
         //! Display the Image Resulted.
-        imgInProcessus = QImage((uchar *)showImage.data, showImage.cols, showImage.rows, showImage.step, QImage::Format_Indexed8);
-        imgInProcessus.bits();
+        imageUnderProcess = QImage((uchar *)showImage.data, showImage.cols, showImage.rows, showImage.step, QImage::Format_Indexed8);
+        imageUnderProcess.bits();
         // display(imgInProcessus,"Cut Words");
         showImage.copyTo(imageIn);
         listCharacters = getCharactersInWord(clonedImageIn, posCuts);
@@ -483,7 +484,7 @@ QList<Mat> Segmentation::tryCutWord(Mat imageIn)
         return listCharacters;
 }
 
-Mat Segmentation::smoothingHistogramme(Mat image)
+Mat Segmentation::smoothingHistogram(Mat image)
 {
     int x;
     int black = 0; // select BLACK color.
