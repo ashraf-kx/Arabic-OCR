@@ -16,7 +16,7 @@ QList<int> Segmentation::calculateBackProjection(Mat imageIn,HistType type)
         for (int i = 0; i < imageIn.rows; ++i){
             x=0;
             for (int j = 0; j < imageIn.cols; ++j){
-                if(imageIn.at<uchar>(i, j) == 0) x++;
+                if(imageIn.at<uchar>(i, j) == 255) x++;
             }
             list<<x;
         }
@@ -25,7 +25,7 @@ QList<int> Segmentation::calculateBackProjection(Mat imageIn,HistType type)
             x=0;
             for (int j = 0; j < imageIn.rows; ++j)
             {
-                if(imageIn.at<uchar>(j, i) == 0) x++;
+                if(imageIn.at<uchar>(j, i) == 255) x++;
             }
             list<<x;
         }
@@ -78,7 +78,7 @@ void Segmentation::getPosCutWord(Mat imageLine, int lineNbr)
 
 void Segmentation::lineDetection(QList<int> HistDATA)
 {
-    // No need for images hear, only Histograms informations of them used !!
+    // No need for images here, only Histograms informations of them used !!
     int average = averageLineHeight(HistDATA);
 
     int threshold = 0;
@@ -133,31 +133,26 @@ QList<Mat> Segmentation::segmenteEntierDocument(Mat image)
 
         // Vertical Histogram.
         QList<int> H_HistDATA = calculateBackProjection(_imgBW,H_Hist);
+
         int max = 0;
-        for(int i=0; i< H_HistDATA.length();i++)
-        {
-            if(max < H_HistDATA.at(i) ){ max = H_HistDATA.at(i); }
-        }
+        for(int i=0; i< H_HistDATA.length();i++)       
+            if(max < H_HistDATA.at(i)) max = H_HistDATA.at(i);
 
         // Drawing the Histogram.
         Mat histImage;
         histImage.create(_imgBW.rows,max,CV_8UC1);
 
-        for (int i = 0; i < histImage.rows; ++i) {
+        for (int i = 0; i < histImage.rows; ++i)
             for (int j = 0; j < histImage.cols; ++j)
-            {
-                histImage.at<uchar>(i, j) = 255;
-            }
-        }
-
-        for (int i = 0; i < _imgBW.rows; ++i) {
-            for (int j = 0; j < H_HistDATA.at(i); ++j) {
                 histImage.at<uchar>(i, j) = 0;
-            }
-        }
-        //imshow("H Histogramme ",histImage);
+
+        for (int i = 0; i < _imgBW.rows; ++i)
+            for (int j = 0; j < H_HistDATA.at(i); ++j)
+                histImage.at<uchar>(i, j) = 240;
+
+        imshow("H Histogramme ",histImage);
         histImage = smoothingHistogramme(histImage);
-        //imshow("H Histogramme S",histImage);
+        imshow("H Histogramme S",histImage);
         // END DRAWING.
 
         //! [ 03/03/2015  21:49] CALL FOR METHODES <? Wandring ?>
@@ -165,29 +160,24 @@ QList<Mat> Segmentation::segmenteEntierDocument(Mat image)
         this->wordsDetection();
 
         // Cut the Entier Image Into Small Pieces We call Them Words.
-        for(int i = 0; i<geoWords.length(); ++i){  //JAVAFX
-            allWordsImages<<copyRect(_imgBW,geoWords.at(i).x_start,geoWords.at(i).y_start,geoWords.at(i).x_end,geoWords.at(i).y_end);
-        }
+        for(int i = 0; i<geoWords.length(); ++i)
+            allWordsImages<<copyRect(_imgBW,geoWords.at(i).x_start,geoWords.at(i).y_start,geoWords.at(i).x_end,geoWords.at(i).y_end);        
 
         // Visualisation the Detection lines.
-        for(int i =0; i< geoLines.length(); i++)
-        {
+        for(int i =0; i< geoLines.length(); i++)        
             for (int j = 0; j < _imgBW.cols; ++j)
             {
                 _imgBW.at<uchar>((geoLines.at(i)).start,j) = 150;
                 _imgBW.at<uchar>((geoLines.at(i)).end,j)   = 127;
-            }
-        }
+            }        
 
         // Visualisation the Detection words.
-        for(int i =0; i< geoWords.length(); ++i){
-
+        for(int i =0; i< geoWords.length(); ++i)
             for (int j = geoWords.at(i).x_start; j < geoWords.at(i).x_end; ++j)
             {
                 _imgBW.at<uchar>(j,geoWords.at(i).y_start)  = 200;
                 _imgBW.at<uchar>(j,(geoWords.at(i)).y_end)  = 130;
-            }
-        }
+            }        
 
         geoLines.clear();
         geoWords.clear();

@@ -100,7 +100,6 @@ void MainWindow::binarizationOTSU()
 {
     _imgInProcessus = preprocessing->binarizationOTSU(_imgRGB);
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"image binarizated.");
@@ -111,7 +110,6 @@ void MainWindow::binarizationGLOBALE(int Threshold)
 {
     _imgInProcessus = preprocessing->binarizationGLOBALE(_imgRGB,Threshold);
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"image binarizated."+QString::number(Threshold));
@@ -122,7 +120,6 @@ void MainWindow::thinning()
 {
     _imgInProcessus = preprocessing->Thinning(_imgInProcessus);
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"Thinning Done.");
@@ -133,7 +130,6 @@ void MainWindow::countor()
 {
     _imgInProcessus = preprocessing->contour(_imgInProcessus);
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"Detection Countor.");
@@ -144,7 +140,6 @@ void MainWindow::CXX()
 {
     _imgInProcessus = preprocessing->convert2cxx(_imgInProcessus);
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"Connexe Compenent.");
@@ -155,14 +150,13 @@ void MainWindow::skew()
 {
     _imgInProcessus = preprocessing->computeSkewAndRotate(_imgInProcessus);
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"Skew Corrected.");
     activateButton(ui->Bt_CorrectSkew);
 }
 
-//!                SEGMENTATION
+//!  SEGMENTATION
 void MainWindow::segmenteEntierDocument()
 {
     CharactersSet.clear();
@@ -172,7 +166,7 @@ void MainWindow::segmenteEntierDocument()
     }
     activateButton(ui->Bt_next_word);
     activateButton(ui->Bt_previous_word);
-    //! LOOK & FEEL.
+
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"Document Segmented Into "+QString::number(CharactersSet.length())+" Character.");
@@ -181,7 +175,6 @@ void MainWindow::segmenteEntierDocument()
 
 void MainWindow::cutCharacters()
 {
-
     QList<Mat> CharactersSubSet;
     CharactersSubSet.clear();
     CharactersSet.clear();
@@ -196,12 +189,10 @@ void MainWindow::cutCharacters()
         //imwrite("/home/ash/Desktop/XC1/Lines/"+QString::number(i).toStdString()+".png",LinesSet.at(i));
     }
 
-    //! LOOK & FEEL.
     imgInProcessus = QImage((uchar*) _imgInProcessus.data,_imgInProcessus.cols,_imgInProcessus.rows,_imgInProcessus.step,QImage::Format_Indexed8);
     imgInProcessus.bits();
     display(imgInProcessus,"Set Of "+ QString::number(CharactersSet.length())+" Character Image Located.");
     activateButton(ui->Bt_cut_word);
-
 }
 
 //!                RECOGNITION
@@ -259,7 +250,7 @@ void MainWindow::saveTraining()
 
 void MainWindow::loadTrainingFile()
 {
-    fileName = QFileDialog::getOpenFileName(this,"Choose Training File","/home/ash/Desktop/","(*.xml)");
+    fileName = QFileDialog::getOpenFileName(this,"Choose Training File",QDir::homePath(),"(*.xml)");
     recognition->loadTrainingFile(fileName);
     ui->statusBar->showMessage("file SVM  training loaded.", 10000);
     activateButton(ui->BT_loadSVM);
@@ -267,7 +258,7 @@ void MainWindow::loadTrainingFile()
 
 void MainWindow::loadLabels()
 {
-    fileName = QFileDialog::getOpenFileName(this,"Choose Labels File","/home/ash/Desktop/","(*.txt)");
+    fileName = QFileDialog::getOpenFileName(this,"Choose Labels File",QDir::homePath(),"(*.txt)");
     if(!fileName.isEmpty())
     {
         QFile file(fileName);
@@ -282,25 +273,26 @@ void MainWindow::loadLabels()
     }
 }
 
-//! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDF Methode Only  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDF Methods Only  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 void MainWindow::loadPDF()
 {
-    fileName = QFileDialog::getOpenFileName(this,"Choose your PDF File","/home/ash/Desktop/","*.pdf");
+    fileName = QFileDialog::getOpenFileName(this,"Choose your PDF File",QDir::homePath(),"*.pdf");
     if(!fileName.isEmpty())
     {
          document = Document::load(fileName);
          document->setRenderHint(Poppler::Document::TextAntialiasing);
          page = document->page(0);
-         PSizeF = page->pageSizeF();
-         imgInProcessus = page->renderToImage();  // PSizeF.width(),PSizeF.height()  // try to see if it work.
+         qDebug()<<"PDF page size: "+QString::number(page->pageSize().width())+"x"+QString::number(page->pageSize().height());
+         // NOTE: Paramtres for "renderToImage(1,1)" result in image size : 8.5x11 (Do the math).
+         imgInProcessus = page->renderToImage(900/8.5,1360/11);
          _imgRGB = QImage2Mat(imgInProcessus);
+         qDebug()<<"Image size (rendered from PDF): "+QString::number(_imgRGB.size().width)+"x"+QString::number(_imgRGB.size().height);
          ui->PDF_Label->setText(QString::number(document->numPages()));
-         display(page->renderToImage(),"Image Pdf Loaded."+QString::number(imgInProcessus.format()));
+         display(page->renderToImage(900/8.5,1360/11),"PDF displayed as an image at a resolution of : "+QString::number(imgInProcessus.format()));
          ui->widget->setEnabled(true);
          ui->widget->setVisible(true);
          ui->SB_PDF->setMaximum(document->numPages());
          ui->SB_PDF->setMinimum(0);
-         // DESIGNER
          buttonsChangeColors();
          activateButton(ui->Bt_PDF_Forword);
          activateButton(ui->Bt_PDF_Back);
@@ -313,7 +305,7 @@ void MainWindow::loadSpecificPage(){
     {
         page = document->page(numberPagePDF);
         PSizeF = page->pageSizeF();
-        imgInProcessus = page->renderToImage();  //PSizeF.width(),PSizeF.height()
+        imgInProcessus = page->renderToImage(900/8.5,1360/11);
         _imgRGB = QImage2Mat(imgInProcessus);
         display(imgInProcessus,"PDF page : "+QString::number(numberPagePDF));
         ui->SB_PDF->setValue(numberPagePDF);
@@ -327,11 +319,13 @@ void MainWindow::next_page()
     {
         page = document->page(numberPagePDF);
         PSizeF = page->pageSizeF();
-        imgInProcessus = page->renderToImage();  // PSizeF.width(),PSizeF.height()
+        imgInProcessus = page->renderToImage(900/8.5,1360/11);
         _imgRGB = QImage2Mat(imgInProcessus);
         display(imgInProcessus,"PDF page : "+QString::number(numberPagePDF));
         ui->SB_PDF->setValue(numberPagePDF);
-    }else { numberPagePDF--; }
+    }
+    else
+        numberPagePDF--;
 }
 
 void MainWindow::previous_page()
@@ -341,11 +335,12 @@ void MainWindow::previous_page()
     {
         page = document->page(numberPagePDF);
         PSizeF = page->pageSizeF();
-        imgInProcessus = page->renderToImage(); // PSizeF.width(),PSizeF.height()
+        imgInProcessus = page->renderToImage();
         _imgRGB = QImage2Mat(imgInProcessus);
         display(imgInProcessus,"PDF page : "+QString::number(numberPagePDF));
         ui->SB_PDF->setValue(numberPagePDF);
-    }else{ numberPagePDF++; }
+    }else
+        numberPagePDF++;
 }
 
 void MainWindow::moveToNextWord()
@@ -445,9 +440,9 @@ void MainWindow::saveImg()
 void MainWindow::about()
 {
    QMessageBox::about(this, tr("About AOCR"),
-            tr("Developed by <b>A</b>shraf <br>"
+            tr("Developed by <b>A</b>chraf <br> K."
                "Version 1.0.0 <br>"
-               "Coptyright 2014-2015."));
+               "Copyright 2014-2015."));
 }
 
 void MainWindow::display(const QImage& image,const QString message)
@@ -472,7 +467,7 @@ void MainWindow::displayHistogramme(const QImage& image)
 
 void MainWindow::browse()
 {
-    fileName = QFileDialog::getOpenFileName(this,"Choose your image","/home/ash/Desktop","Image files (*.png *.xpm *.jpg *.bmp)");
+    fileName = QFileDialog::getOpenFileName(this,"Choose your image",QDir::homePath(),"Image files (*.png *.xpm *.jpg *.bmp)");
     if(!fileName.isEmpty())
     {
         ui->widget->setVisible(true);

@@ -8,7 +8,6 @@ Recognition::Recognition(QObject *parent) :
      AllLettres ="ﻷ/ﻸ/ﻻ/ﻼ/­ﺂ/£/¤/ﺄ/ﺎ/ب/ت/ث/،/ج/ح/خ/٠/١/٢/٣/٤/٥/٦/٧/٨/٩/ف/؛/س/ش/ص/؟/¢/ء/آ/أ/ؤ/ﻊ/ﺋ/ا/ﺑ/ة/ﺗ/ﺛ/ﺟ/ﺣ/ﺧ/د/ذ/ر/ز/ﺳ/ﺷ/ﺻ/ﺿ/ط/ظ/ﻋ/ﻏ/¦/¬/÷/×/ع/ـ/ﻓ/ﻗ/ﻛ/ﻟ/ﻣ/ﻧ/ﻫ/و/ى/ﻳ/ض/ﻌ/ﻎ/غ/م/ن/ه/ﻬ/ﻰ/ﻲ/ﻐ/ق/ﻵ/ﻶ/ل/ك/ي";
 }
 
-
 void Recognition::loadLabels(QString labels)
 {
     AllLettres = labels;
