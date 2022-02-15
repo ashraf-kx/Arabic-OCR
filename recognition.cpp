@@ -59,21 +59,22 @@ Mat Recognition::getTrainingSet(QList<Mat> CharactersSet)
 }
 
 void Recognition::setSVMParameters(int kernalType, double C, double degree, double gamma)
-{
+{    
     svm->setType(SVM::C_SVC);
     svm->setKernel(kernalType); // SVM::POLY
     svm->setGamma(gamma);
     svm->setC(C);
     svm->setDegree(degree);
     svm->setTermCriteria(TermCriteria(CV_TERMCRIT_ITER, (int)1e7, 1e-6));
+    qDebug()<<"New SVM parameters is adjusted.";
 }
 
 void Recognition::trainTheMachine(Mat trainingSet)
 {
-    // ------------------- 1. Preparing Data For Supervised Learning -----------------------------
+    // 1. Setup SVM Parametres. [ Called before this method scope ]
+    // 2. Preparing Data For Supervised Learning.
     Mat labels(trainingSet.rows, 1, CV_32FC1);
-    for (int i = 0; i < labels.rows;)
-    {
+    for (int i = 0; i < labels.rows;)    
         for (int j = 0; j <= trainingSet.rows; j++)
         {
             labels.at<float>(i, 0) = j;
@@ -81,10 +82,8 @@ void Recognition::trainTheMachine(Mat trainingSet)
             if (i >= labels.rows)
                 break;
         }
-    }
-    // ---------------------   2. Set Up Parametres SVM ------------------------------------------
 
-    //------------------------ 3. Train The SVM --------------------------------------------------
+    // 3. Train The SVM
 
     // qint64 start = QDateTime::currentMSecsSinceEpoch();
     svm->train(trainingSet, ROW_SAMPLE, labels);
@@ -142,12 +141,12 @@ QString Recognition::recognizeTest(Mat TestingSet)
 
 QList<float> Recognition::extractFeaturesVector(Mat image)
 {
-    QList<float> vector;
-    vector.clear();
+    QList<float> vectorSVM;
+    vectorSVM.clear();
 
     // Ration width/height & Height/width.
-    vector << calculateWHRation(image);
-    vector << calculateHWRation(image);
+    vectorSVM << calculateWHRation(image);
+    vectorSVM << calculateHWRation(image);
 
     image = Segmentation::characterNormalization(image);
 
@@ -161,14 +160,13 @@ QList<float> Recognition::extractFeaturesVector(Mat image)
             int jj = j;
             j += 10;
             number = diagonalAverage(Segmentation::copyRect(image, ii, jj, i, j));
-            vector << number;
+            vectorSVM << number;
         }
     }
 
-    // number CXX Feature
-    vector << countCXX(image);
+    vectorSVM << countCXX(image);
 
-    return vector;
+    return vectorSVM;
 }
 
 int Recognition::countCXX(const Mat &image)
@@ -182,37 +180,37 @@ int Recognition::countCXX(const Mat &image)
 
     threshold(image, image, 0.0, 1.0, THRESH_BINARY_INV);
     Mat output = Mat::zeros(image.size(), CV_8UC3);
-    Mat label_image;
+    Mat labelImage;
 
-    image.convertTo(label_image, CV_32SC1);
+    image.convertTo(labelImage, CV_32SC1);
 
-    int label_count = 2; // starts at 2 because 0,1 are used already
+    int labelCount = 2; // starts at 2 because 0,1 are used already
 
-    for (int y = 0; y < label_image.rows; y++)
+    for (int y = 0; y < labelImage.rows; y++)
     {
-        int *row = (int *)label_image.ptr(y);
-        for (int x = 0; x < label_image.cols; x++)
+        int *row = (int *)labelImage.ptr(y);
+        for (int x = 0; x < labelImage.cols; x++)
         {
             if (row[x] != 1) continue;
 
             Rect rect;
-            floodFill(label_image, Point(x, y), label_count, &rect, 0, 0, 4);
+            floodFill(labelImage, Point(x, y), labelCount, &rect, 0, 0, 4);
 
             std::vector<Point2i> blob;
 
             for (int i = rect.y; i < (rect.y + rect.height); i++)
             {
-                int *row2 = (int *)label_image.ptr(i);
+                int *row2 = (int *)labelImage.ptr(i);
                 for (int j = rect.x; j < (rect.x + rect.width); j++)
                 {
-                    if (row2[j] != label_count) continue;
+                    if (row2[j] != labelCount) continue;
                     blob.push_back(Point2i(j, i));
                 }
             }
 
             blobs.push_back(blob);
 
-            label_count++;
+            labelCount++;
         }
     }
     return blobs.size();

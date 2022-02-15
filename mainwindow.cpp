@@ -10,26 +10,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     this->setWindowIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/IconAOCR.png")));
     this->setWindowTitle("Arabic OCR V1.0.1");
 
-    ui->widget->setMaximumWidth(200);
-    ui->widgetTrainingSVM->setMaximumWidth(200);
-    ui->widget->setEnabled(false);
+    ui->widgetTrainSVM->setMaximumWidth(200);
+    ui->widgetRecognizeDocument->setMaximumWidth(200);
+    ui->widgetTrainSVM->setEnabled(false);
     ui->viewVerticalHistogram->setMaximumWidth(0);
 
     scene = new QGraphicsScene();
     sceneVerticalHistogram = new QGraphicsScene();
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->show();
+    ui->mainView->setScene(scene);
+    ui->mainView->show();
     ui->viewVerticalHistogram->setVisible(false);
-    ui->TE_FinalText->setVisible(false);
-    ui->widgetTrainingSVM->setVisible(false);
+    ui->editableRecognizedText->setVisible(false);
 
     preprocessing = new Preprocess();
     recognition = new Recognition();
     segmentation = new Segmentation();
 
     numberPagePDF = 0;
-
-    ui->splitter->setHandleWidth(1);
 
     ui->actionOpen->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/Add.ico")));
     ui->actionRestart->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/Available-Updates.ico")));
@@ -44,8 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->actionFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F));
     ui->actionExitFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::SHIFT, Qt::Key_F));
 
-    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(browse()));
-    connect(ui->actionLoadPDF, SIGNAL(triggered()), this, SLOT(loadPDF()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(browse()));    
     connect(ui->actionRestart, SIGNAL(triggered()), this, SLOT(reset()));
     connect(ui->actionFullScreen, SIGNAL(triggered()), this, SLOT(showFullScreen()));
     connect(ui->actionExitFullScreen, SIGNAL(triggered()), this, SLOT(showMaximized()));
@@ -56,11 +52,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // connect(ui->actionGet_All_Vectors_NOW,SIGNAL(triggered()),segmentation,SLOT(cutAllWords2AllCharacters())); // SPECIAL ONE >>
     // connect(ui->horizontalSlider_threshold,SIGNAL(valueChanged(int)),ui->labelThreshold,SLOT(setNum(int)));
 
+    connect(ui->btnLoadDocument, SIGNAL(clicked()), this, SLOT(loadPDF()));
     connect(ui->btnPdfBack, SIGNAL(clicked()), this, SLOT(previousPage()));
     connect(ui->btnPdfForward, SIGNAL(clicked()), this, SLOT(nextPage()));
     connect(ui->btnNextWord, SIGNAL(clicked()), this, SLOT(moveToNextWord()));
     connect(ui->btnPreviousWord, SIGNAL(clicked()), this, SLOT(moveToPreviousWord()));
-    connect(ui->btnTrainingPhase, SIGNAL(clicked()), this, SLOT(changeVisibility()));
     connect(ui->spinboxPDF, SIGNAL(editingFinished()), this, SLOT(loadSpecificPage()));
 
     // Preprocessing
@@ -76,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->btnCutWord, SIGNAL(clicked()), this, SLOT(cutCharacters()));
 
     // Recognition
-    connect(ui->btnGetFeatureSetTraining, SIGNAL(clicked()), this, SLOT(extractTrainingData()));
+    connect(ui->btnExtractTrainingData, SIGNAL(clicked()), this, SLOT(extractTrainingData()));
     connect(ui->btnGetTestingSet, SIGNAL(clicked()), this, SLOT(extractTestingData()));
     connect(ui->btnTrainTheMachine, SIGNAL(clicked()), this, SLOT(trainTheMachine()));
     connect(ui->btnRecognizeCharacters, SIGNAL(clicked()), this, SLOT(recognize()));
@@ -114,7 +110,7 @@ void MainWindow::contour()
 
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
-    display(imageUnderProcess, "Detection Countor.");
+    display(imageUnderProcess, "Detection countor.");
     activateButton(ui->btnContourDetection);
 }
 
@@ -124,7 +120,7 @@ void MainWindow::CXX()
 
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
-    display(imageUnderProcess, "Connexe Compenent.");
+    display(imageUnderProcess, "Connexe compenent.");
     activateButton(ui->btnCXX);
 }
 
@@ -134,7 +130,7 @@ void MainWindow::skew()
 
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
-    display(imageUnderProcess, "Skew Corrected.");
+    display(imageUnderProcess, "Skew corrected.");
     activateButton(ui->btnCorrectSkew);
 }
 
@@ -162,7 +158,7 @@ void MainWindow::cutCharacters()
     CharactersSubSet.clear();
     charactersSet.clear();
 
-    QList<Mat> LinesSet = segmentation->getAllImagesLines(matUnderProcess);
+    QList<Mat> LinesSet = segmentation->getCollectionOfLinesDetected(matUnderProcess);
     for (int i = 0; i < LinesSet.length(); i++)
     {
         CharactersSubSet = segmentation->cutLine2Characters(LinesSet, i);
@@ -180,12 +176,12 @@ void MainWindow::cutCharacters()
     activateButton(ui->btnCutWord);
 }
 
-//!                RECOGNITION
+//! RECOGNITION
 void MainWindow::extractTrainingData()
 {
     trainSet = recognition->getTrainingSet(charactersSet);
-    activateButton(ui->btnGetFeatureSetTraining);
-    ui->statusBar->showMessage("Train Data Extracted.", 10000);
+    activateButton(ui->btnExtractTrainingData);
+    ui->statusBar->showMessage("Train data set is extracted.", 10000);
 }
 
 void MainWindow::extractTestingData()
@@ -197,39 +193,38 @@ void MainWindow::extractTestingData()
 
 void MainWindow::trainTheMachine()
 {
-    ui->statusBar->showMessage("Wait Please ......");
+    ui->statusBar->showMessage("Please wait ......");
     recognition->setSVMParameters(ui->svmKernal->currentIndex(), ui->svmC->text().toDouble(), ui->svmDegree->text().toDouble(), ui->svmGamma->text().toDouble());
     recognition->trainTheMachine(trainSet);
     activateButton(ui->btnTrainTheMachine);
-    ui->statusBar->showMessage("Machine Trained.", 10000);
+    ui->statusBar->showMessage("Machine trained successfully.", 10000);
 }
 
 void MainWindow::recognize()
 {
-    /// if()
     QString Result = recognition->recognize(testingSet);
-    ui->TE_FinalText->clear();
-    ui->TE_FinalText->setText(Result);
-    ui->TE_FinalText->setVisible(true);
+    ui->editableRecognizedText->clear();
+    ui->editableRecognizedText->setText(Result);
+    ui->editableRecognizedText->setVisible(true);
     activateButton(ui->btnRecognizeCharacters);
-    ui->statusBar->showMessage("recognition Done.", 10000);
+    ui->statusBar->showMessage("Recognition done.", 10000);
 }
 
 void MainWindow::recognizeTest()
 {
     QString Result = recognition->recognizeTest(trainSet);
-    ui->TE_FinalText->clear();
-    ui->TE_FinalText->setText(Result);
-    ui->TE_FinalText->setVisible(true);
+    ui->editableRecognizedText->clear();
+    ui->editableRecognizedText->setText(Result);
+    ui->editableRecognizedText->setVisible(true);
     activateButton(ui->btnCheck);
-    ui->statusBar->showMessage("recognition Done.", 10000);
+    ui->statusBar->showMessage("Recognition done.", 10000);
 }
 
 void MainWindow::saveTraining()
 {
     fileName = QFileDialog::getSaveFileName(this, tr("Save As"));
     recognition->saveTraining(fileName);
-    ui->statusBar->showMessage("training file saved.", 10000);
+    ui->statusBar->showMessage("Training file saved.", 10000);
     activateButton(ui->btnSaveSVM);
 }
 
@@ -237,13 +232,13 @@ void MainWindow::loadTrainingFile()
 {
     fileName = QFileDialog::getOpenFileName(this, "Choose Training File", QDir::homePath(), "(*.xml)");
     recognition->loadTrainingFile(fileName);
-    ui->statusBar->showMessage("file SVM  training loaded.", 10000);
+    ui->statusBar->showMessage("File SVM  training loaded.", 10000);
     activateButton(ui->btnLoadSVM);
 }
 
 void MainWindow::loadLabels()
 {
-    fileName = QFileDialog::getOpenFileName(this, "Choose Labels File", QDir::homePath(), "(*.txt)");
+    fileName = QFileDialog::getOpenFileName(this, "Choose labels file", QDir::homePath(), "(*.txt)");
     if (!fileName.isEmpty())
     {
         QFile file(fileName);
@@ -260,7 +255,7 @@ void MainWindow::loadLabels()
 
 void MainWindow::loadPDF()
 {
-    fileName = QFileDialog::getOpenFileName(this, "Choose your PDF File", QDir::homePath(), "*.pdf");
+    fileName = QFileDialog::getOpenFileName(this, "Choose your PDF file", QDir::homePath(), "*.pdf");
     if (!fileName.isEmpty())
     {
         document = Document::load(fileName);
@@ -273,8 +268,8 @@ void MainWindow::loadPDF()
         qDebug() << "Image size (rendered from PDF): " + QString::number(rgbMat.size().width) + "x" + QString::number(rgbMat.size().height);
         ui->pdfLabel->setText(QString::number(document->numPages()));
         display(page->renderToImage(900 / 8.5, 1360 / 11), "PDF displayed as an image at a resolution of : " + QString::number(imageUnderProcess.format()));
-        ui->widget->setEnabled(true);
-        ui->widget->setVisible(true);
+        ui->widgetTrainSVM->setEnabled(true);
+        ui->widgetTrainSVM->setVisible(true);
         ui->spinboxPDF->setMaximum(document->numPages());
         ui->spinboxPDF->setMinimum(0);
         buttonsChangeColors();
@@ -369,14 +364,14 @@ void MainWindow::startCamera()
 {
     ui->actionCapturePhoto->setDisabled(true);
     this->exitCamera = true;
-    VideoCapture _WebCam(0); // Open The Default Camera.
-    if (!_WebCam.isOpened()) // Check If We Succeeded.
+    VideoCapture camera(0); // Open The Default Camera.
+    if (!camera.isOpened()) // Check If We Succeeded.
         ui->statusBar->showMessage("Failed");
     do
     {
         Mat frame;
         Mat _tmp;
-        _WebCam >> frame;
+        camera >> frame;
         imshow("Origine : ", frame); // get a new frame from camera
         rgbMat = frame;
         GaussianBlur(frame, matUnderProcess, Size(1, 3), 0, 0);
@@ -398,7 +393,7 @@ void MainWindow::startCamera()
 void MainWindow::stopCapture()
 {
     this->exitCamera = false;
-    ui->widget->setEnabled(true);
+    ui->widgetTrainSVM->setEnabled(true);
     ui->actionCapturePhoto->setDisabled(false);
 }
 
@@ -445,7 +440,7 @@ void MainWindow::display(const QImage &image, const QString message)
     pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     scene->clear();
     scene->addItem(pixmapItem);
-    ui->graphicsView->update();
+    ui->mainView->update();
     QString msg = message + " :" + QString::number(image.width()) + "X" + QString::number(image.height());
     ui->statusBar->showMessage(msg, 10000);
 }
@@ -465,8 +460,8 @@ void MainWindow::browse()
     fileName = QFileDialog::getOpenFileName(this, "Choose your image", QDir::homePath(), "Image files (*.png *.xpm *.jpg *.bmp)");
     if (!fileName.isEmpty())
     {
-        ui->widget->setVisible(true);
-        ui->widget->setEnabled(true);
+        ui->widgetTrainSVM->setVisible(true);
+        ui->widgetTrainSVM->setEnabled(true);
 
         rgbMat = imread(fileName.toStdString());
         grayMat = imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
@@ -482,9 +477,9 @@ void MainWindow::browse()
 
 void MainWindow::reset()
 {
-    ui->widget->setVisible(false);
+    ui->widgetTrainSVM->setVisible(false);
     ui->viewVerticalHistogram->setMaximumWidth(0);
-    ui->TE_FinalText->setVisible(false);
+    ui->editableRecognizedText->setVisible(false);
     scene->clear();
 
     sourceMat.release();
@@ -505,18 +500,8 @@ void MainWindow::reset()
     document = NULL;
 
     binVal = 0;
-    ui->widget->setEnabled(false);
+    ui->widgetTrainSVM->setEnabled(false);
     ui->labelStatus->clear();
-}
-
-void MainWindow::changeVisibility()
-{
-    ui->widgetTrainingSVM->setVisible(!ui->widgetTrainingSVM->isVisible());
-    // DESIGNER >> 2015
-    if (!ui->widgetTrainingSVM->isVisible())
-        deactivateButton(ui->btnTrainingPhase);
-    else
-        activateButton(ui->btnTrainingPhase);
 }
 
 void MainWindow::buttonsChangeColors()
@@ -548,9 +533,8 @@ void MainWindow::buttonsChangeColors()
     ui->btnRecognizeCharacters->setStyleSheet(styleScriptCSS);
     ui->btnSegmentIntoWords->setStyleSheet(styleScriptCSS_EXP);
     ui->btnThining->setStyleSheet(styleScriptCSS);
-    ui->btnTrainingPhase->setStyleSheet(styleScriptCSS);
     ui->btnCheck->setStyleSheet(styleScriptCSS);
-    ui->btnGetFeatureSetTraining->setStyleSheet(styleScriptCSS_EXP);
+    ui->btnExtractTrainingData->setStyleSheet(styleScriptCSS_EXP);
     ui->btnLoadSVM->setStyleSheet(styleScriptCSS);
     ui->btnSaveSVM->setStyleSheet(styleScriptCSS);
     ui->btnTrainTheMachine->setStyleSheet(styleScriptCSS);
@@ -571,7 +555,7 @@ void MainWindow::activateButton(QPushButton *BT)
             border: 1px solid #E05A2B;border-top-width: 1px;border-bottom-width: 1px;\
             border-top-style: solid;border-bottom-style: solid; vertical-align: middle;";
 
-    if (BT == ui->btnSegmentIntoWords || BT == ui->btnGetFeatureSetTraining)
+    if (BT == ui->btnSegmentIntoWords || BT == ui->btnExtractTrainingData)
         BT->setStyleSheet(styleScriptCSS_EXE);
     else
         BT->setStyleSheet(styleScriptCSS);

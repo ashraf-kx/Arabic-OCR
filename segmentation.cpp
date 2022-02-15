@@ -40,31 +40,31 @@ QList<int> Segmentation::calculateBackProjection(Mat imageIn, HistogramType type
     return list;
 }
 
-void Segmentation::getPosCutWord(Mat imageLine, int lineNbr)
+void Segmentation::getPositionCutWord(Mat imageLine, int lineIndex)
 {
-    // Vertical Histogram.
-    QList<int> HistLineData = calculateBackProjection(imageLine, VERTICAL);
+    // NOTE: Possible improvements suggest applying histogram smoothing.
+    QList<int> VerticalHistogram = calculateBackProjection(imageLine, VERTICAL);
 
-    // word Calculate position of cuts.
+    // INFO: trying to find the right cut coordinates for the words in the current document line.
     bool lock = false;
     int i = 0;
-    int t_S_Pos = geoWords.length();
-    while (i < HistLineData.length())
+    int tStartPosition = geoWords.length();
+    while (i < VerticalHistogram.length())
     {
-        if (HistLineData.at(i) != 0)
+        if (VerticalHistogram.at(i) != 0)
         {
-            W.y_start = i - 1;
-            W.x_start = geoLines.at(lineNbr).start;
+            word.y_start = i - 1;
+            word.x_start = geoLines.at(lineIndex).start;
             lock = true;
             i++;
 
             while (lock)
             {
-                if (HistLineData.at(i) == 0)
+                if (VerticalHistogram.at(i) == 0)
                 {
-                    W.y_end = i + 1;
-                    W.x_end = geoLines.at(lineNbr).end;
-                    geoWords << W;
+                    word.y_end = i + 1;
+                    word.x_end = geoLines.at(lineIndex).end;
+                    geoWords << word;
                     lock = false;
                 }
                 i++;
@@ -74,50 +74,47 @@ void Segmentation::getPosCutWord(Mat imageLine, int lineNbr)
             i++;
     }
     // For ARABIC SCRIPT [07_04_2015 20:00] (SAVED).
-    int t_E_Pos = geoWords.length();
-    int Z = (t_E_Pos - t_S_Pos) / 2;
+    int tEndPosition = geoWords.length();
+    int Z = (tEndPosition - tStartPosition) / 2;
 
-    for (int i = t_S_Pos; i < t_S_Pos + Z; i++)
+    for (int i = tStartPosition; i < tStartPosition + Z; i++)
     {
-        t_E_Pos--;
-        geoWords.swapItemsAt(i, t_E_Pos);
+        tEndPosition--;
+        geoWords.swapItemsAt(i, tEndPosition);
     }
 }
 
-void Segmentation::lineDetection(QList<int> HistDATA)
+void Segmentation::lineDetection(QList<int> histogramData)
 {
-    // No need for images here, only Histograms informations of them used !!
-    int average = averageLineHeight(HistDATA);
+    // No need for images here, only Histogram data
+    int average = averageLineHeight(histogramData);
 
     int threshold = 0;
     bool lock = false;
-    if (!HistDATA.isEmpty())
+    if (!histogramData.isEmpty())
     {
         int i = 0;
-        while (i < HistDATA.length())
+        while (i < histogramData.length())
         {
             int j = 0;
-            if (HistDATA.at(i) > threshold)
+            if (histogramData.at(i) > threshold)
             {
-                L.start = i - 1;
+                line.start = i - 1;
                 lock = true;
                 i++;
                 j++;
 
                 while (lock)
                 {
-                    if (HistDATA.at(i) <= threshold)
-                    {
+                    if (histogramData.at(i) <= threshold)
                         if (j >= average)
                         {
-                            L.end = i + 1;
-                            geoLines << L; // this is it <<<<----- [ Cricial ].
+                            line.end = i + 1;
+                            geoLines << line; // Cricial: this is important.
                             lock = false;
                             j = -1;
-                        }
-                    }
-                    i++;
-                    j++;
+                        }                    
+                    i++; j++;
                 }
             }
             else
@@ -129,52 +126,46 @@ void Segmentation::lineDetection(QList<int> HistDATA)
 void Segmentation::wordsDetection()
 {
     for (int i = 0; i < geoLines.length(); i++)
-    {
-        // complicated, but under Control [ Histogram Smoothing needed MAYBE ].
-        this->getPosCutWord(copyRect(binarizedMat, (geoLines.at(i)).start, 0, (geoLines.at(i)).end, binarizedMat.cols), i);
-    }
+        this->getPositionCutWord(copyRect(binarizedMat, geoLines.at(i).start, 0, geoLines.at(i).end, binarizedMat.cols), i);
 }
 
 QList<Mat> Segmentation::segmentEntireDocument(Mat image)
 {
     image.copyTo(binarizedMat);
-    QList<Mat> allWordsImages;
-    allWordsImages.clear();
+    QList<Mat> wordsCollectionDetected;
+    wordsCollectionDetected.clear();
 
-    // Vertical Histogram.
-    QList<int> H_HistDATA = calculateBackProjection(binarizedMat, HORIZONTAL);
+    QList<int> horizontalHistogram = calculateBackProjection(binarizedMat, HORIZONTAL);
 
     int max = 0;
-    for (int i = 0; i < H_HistDATA.length(); i++)
-        if (max < H_HistDATA.at(i))
-            max = H_HistDATA.at(i);
+    for (int i = 0; i < horizontalHistogram.length(); i++)
+        if (max < horizontalHistogram.at(i))
+            max = horizontalHistogram.at(i);
 
-    // Drawing the Histogram.
-    Mat histImage;
-    histImage.create(binarizedMat.rows, max, CV_8UC1);
+    Mat paintedHistogram;
+    paintedHistogram.create(binarizedMat.rows, max, CV_8UC1);
 
-    for (int i = 0; i < histImage.rows; ++i)
-        for (int j = 0; j < histImage.cols; ++j)
-            histImage.at<uchar>(i, j) = 0;
+    for (int i = 0; i < paintedHistogram.rows; ++i)
+        for (int j = 0; j < paintedHistogram.cols; ++j)
+            paintedHistogram.at<uchar>(i, j) = 0;
 
     for (int i = 0; i < binarizedMat.rows; ++i)
-        for (int j = 0; j < H_HistDATA.at(i); ++j)
-            histImage.at<uchar>(i, j) = 240;
+        for (int j = 0; j < horizontalHistogram.at(i); ++j)
+            paintedHistogram.at<uchar>(i, j) = 240;
 
-    imshow("H Histogramme ", histImage);
-    histImage = smoothingHistogram(histImage);
-    imshow("H Histogramme S", histImage);
+    // imshow("H Histogram ", histImage);
+    paintedHistogram = smoothingHistogram(paintedHistogram);
+    imshow("Smoothed horizontal histogram", paintedHistogram);
     // END DRAWING.
 
-    //! [ 03/03/2015  21:49] CALL FOR METHODES <? Wandring ?>
-    this->lineDetection(H_HistDATA);
+    this->lineDetection(horizontalHistogram);
     this->wordsDetection();
 
     // Cut the Entier Image Into Small Pieces We call Them Words.
     for (int i = 0; i < geoWords.length(); ++i)
-        allWordsImages << copyRect(binarizedMat, geoWords.at(i).x_start, geoWords.at(i).y_start, geoWords.at(i).x_end, geoWords.at(i).y_end);
+        wordsCollectionDetected << copyRect(binarizedMat, geoWords.at(i).x_start, geoWords.at(i).y_start, geoWords.at(i).x_end, geoWords.at(i).y_end);
 
-    // Visualisation the Detection lines.
+    // Painting lines that seperate each text-line in the document.
     for (int i = 0; i < geoLines.length(); i++)
         for (int j = 0; j < binarizedMat.cols; ++j)
         {
@@ -182,7 +173,7 @@ QList<Mat> Segmentation::segmentEntireDocument(Mat image)
             binarizedMat.at<uchar>((geoLines.at(i)).end, j) = 127;
         }
 
-    // Visualisation the Detection words.
+    // Painting the lines that seperate each word/alphabet for each text-line in the document.
     for (int i = 0; i < geoWords.length(); ++i)
         for (int j = geoWords.at(i).x_start; j < geoWords.at(i).x_end; ++j)
         {
@@ -194,44 +185,38 @@ QList<Mat> Segmentation::segmentEntireDocument(Mat image)
     geoWords.clear();
 
     binarizedMat.copyTo(image);
-    return allWordsImages;
+    return wordsCollectionDetected;
 }
 
-QList<Mat> Segmentation::getAllImagesLines(Mat image)
+QList<Mat> Segmentation::getCollectionOfLinesDetected(Mat image)
 {
-    QList<Mat> allLinesImages;
-    allLinesImages.clear();
+    QList<Mat> collectionOfLinesDetected;
+    collectionOfLinesDetected.clear();
 
     image.copyTo(binarizedMat);
-    // Vertical Histogram.
-    QList<int> H_HistDATA = calculateBackProjection(binarizedMat, HORIZONTAL);
+    QList<int> horizontalHistogram = calculateBackProjection(binarizedMat, HORIZONTAL);
 
-    //! [ 03/03/2015  21:49] CALL FOR METHODES <? Wandring ?>
-    this->lineDetection(H_HistDATA);
+    this->lineDetection(horizontalHistogram);
 
-    // Cut the Entier Image Into Small Pieces We call Them images  Lines.
-    for (int i = 0; i < geoLines.length(); ++i)
-    { // JAVAFX
-        allLinesImages << copyRect(binarizedMat, geoLines.at(i).start, 0, geoLines.at(i).end, binarizedMat.cols);
-    }
+    // Try detect and cut all text-lines within the current Document.
+    for (int i = 0; i < geoLines.length(); ++i)    
+        collectionOfLinesDetected << copyRect(binarizedMat, geoLines.at(i).start, 0, geoLines.at(i).end, binarizedMat.cols);
 
-    // Visualisation the Detection lines.
-    for (int i = 0; i < geoLines.length(); i++)
-    {
+    // Visualise the tracing line that seperate documents text-lines.
+    for (int i = 0; i < geoLines.length(); i++)    
         for (int j = 0; j < binarizedMat.cols; ++j)
         {
             binarizedMat.at<uchar>((geoLines.at(i)).start, j) = 150;
             binarizedMat.at<uchar>((geoLines.at(i)).end, j) = 127;
-        }
-    }
+        }    
     binarizedMat.copyTo(image);
-    return allLinesImages;
+    return collectionOfLinesDetected;
 }
 
 int Segmentation::mostRedundantValue(QList<int> list)
 {
     int value = 0;
-    QList<candidate> Condidate;
+    QList<Candidate> Condidate;
     Condidate.clear();
     while (list.length() != 0)
     {
@@ -650,36 +635,33 @@ Mat Segmentation::characterNormalization(Mat image)
     return image;
 }
 
-int Segmentation::averageLineHeight(QList<int> list)
+int Segmentation::averageLineHeight(QList<int> histogramData)
 {
     QList<int> linesHeight;
     linesHeight.clear();
 
     bool lock = false;
-    if (!list.isEmpty())
+    if (!histogramData.isEmpty())
     {
         int i = 0;
-        while (i < list.length())
+        while (i < histogramData.length())
         {
             int j = 0;
-            if (list.at(i) > 0)
+            if (histogramData.at(i) > 0)
             {
                 lock = true;
-
-                j++;
-                i++;
+                j++; i++;
 
                 while (lock)
                 {
-                    if (list.at(i) <= 0)
+                    if (histogramData.at(i) <= 0)
                     {
                         linesHeight << j;
                         lock = false;
                         j = -1;
                     }
 
-                    j++;
-                    i++;
+                    j++; i++;
                 }
             }
             else
@@ -688,10 +670,7 @@ int Segmentation::averageLineHeight(QList<int> list)
     }
 
     int average = 0;
-    for (int i = 0; i < linesHeight.length(); i++)
-    {
-        average += linesHeight.at(i);
-    }
+    for (int i = 0; i < linesHeight.length(); i++) average += linesHeight.at(i);
     average = (int)((average / linesHeight.length()) / 1.5);
 
     return average;

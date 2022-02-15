@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>739</height>
+    <width>1168</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,888 +29,26 @@ QMainWindow:hover
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_4">
-    <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="styleSheet">
-       <string notr="true">QSplitter::handle{
-	background-color: rgb(154, 154, 154);
-
-}</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <widget class="QWidget" name="widget" native="true">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QWidget
-{
-    
-    border: 0px solid #c5c5c5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-        border-top-color: #c5c5c5;
-        border-bottom-color: #c5c5c5;
-		 border-left: 1px solid   #c5c5c5;
-    vertical-align: middle;
-}
-
-QWidget:hover
-{
-border-left: 1px solid   #00bbff;
-border-top: 1px solid   #00bbff;
-border-bottom: 1px solid   #00bbff;
-}
-
-</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QPushButton" name="btnPdfBack">
-              <property name="font">
-               <font>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-              </property>
-              <property name="text">
-               <string>&lt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinboxPDF">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border:0px solid #c5c5c5;
-height:30px;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="pdfLabel">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border:1px solid #c5c5c5;</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnPdfForward">
-              <property name="font">
-               <font>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-              </property>
-              <property name="text">
-               <string>&gt;</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QSplitter" name="splitter_2">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <widget class="QPushButton" name="btnBinarization">
-             <property name="font">
-              <font>
-               <pointsize>-1</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>PointingHandCursor</cursorShape>
-             </property>
-             <property name="mouseTracking">
-              <bool>true</bool>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-
-</string>
-             </property>
-             <property name="text">
-              <string>Binarization</string>
-             </property>
-            </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSlider" name="sliderBinarization">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="whatsThis">
-             <string>Globale binarization</string>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">border:0px ;</string>
-            </property>
-            <property name="maximum">
-             <number>254</number>
-            </property>
-            <property name="value">
-             <number>128</number>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnCorrectSkew">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-
-</string>
-            </property>
-            <property name="text">
-             <string>Correct Skew</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelStatus">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">border:0px;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnTrainingPhase">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-            </property>
-            <property name="text">
-             <string>Training Phase</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_2">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QPushButton" name="btnPreviousWord">
-              <property name="font">
-               <font>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-              </property>
-              <property name="text">
-               <string>&lt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="labelWordsCount">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border:1px solid #c5c5c5;</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnNextWord">
-              <property name="font">
-               <font>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-              </property>
-              <property name="text">
-               <string>&gt;</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnCutWord">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-            </property>
-            <property name="text">
-             <string>Get Characters</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnGetTestingSet">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-            </property>
-            <property name="text">
-             <string>Get Feature Set</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnRecognizeCharacters">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-            </property>
-            <property name="text">
-             <string>Recognize Characters</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelThreshold">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">border:0px;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_3">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnContourDetection">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="mouseTracking">
-             <bool>true</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-            </property>
-            <property name="text">
-             <string>Contour Detection</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnThining">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="mouseTracking">
-             <bool>true</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-            </property>
-            <property name="text">
-             <string>Thining</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnCXX">
-            <property name="font">
-             <font>
-              <pointsize>-1</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-</string>
-            </property>
-            <property name="text">
-             <string>CXX</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="widgetTrainingSVM" native="true">
-       <property name="styleSheet">
-        <string notr="true">QWidget
-{
-    
-    border: 0px solid #c5c5c5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-        border-top-color: #c5c5c5;
-        border-bottom-color: #c5c5c5;
-		 border-left: 1px solid   #c5c5c5;
-    vertical-align: middle;
-}
-
-QWidget:hover
-{
-border-left: 1px solid   #00bbff;
-border-top: 1px solid   #00bbff;
-border-bottom: 1px solid   #00bbff;
-}
-
-</string>
-       </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QPushButton" name="btnSegmentIntoWords">
+         <widget class="QPushButton" name="btnLoadDocument">
           <property name="font">
            <font>
             <pointsize>-1</pointsize>
@@ -929,46 +67,6 @@ border-bottom: 1px solid   #00bbff;
     padding: 7px 12px;
         padding-top: 7px;
         padding-bottom: 7px;
-    font-size: 12px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-
-</string>
-          </property>
-          <property name="text">
-           <string>Segmentation into words</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnLoadLabels">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
     font-size: 15px;
     font-family: Ubuntu;
     color: #ffffff;
@@ -989,368 +87,394 @@ border-bottom: 1px solid   #00bbff;
     vertical-align: middle;
 }
 
-</string>
-          </property>
-          <property name="text">
-           <string>Load Labels</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnGetFeatureSetTraining">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 13px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
 
 </string>
           </property>
           <property name="text">
-           <string>Get Training Feature Set</string>
+           <string>Load document</string>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QSplitter" name="splitter_3">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="QWidget" name="layoutWidget">
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>C            -&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Degree-&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Gamma-&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>kernal   -&gt;</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="layoutWidget">
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QLineEdit" name="svmC">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border:1px solid #c5c5c5;</string>
-              </property>
-              <property name="text">
-               <string>5</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="svmDegree">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border:1px solid #c5c5c5;</string>
-              </property>
-              <property name="text">
-               <string>5</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="svmGamma">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border:1px solid #c5c5c5;</string>
-              </property>
-              <property name="text">
-               <string>100</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="svmKernal">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <item>
-               <property name="text">
-                <string>LINEAR</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>POLY</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>RBF</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>SIGMOID</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
+          <widget class="QPushButton" name="btnBinarization">
+           <property name="font">
+            <font>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+
+</string>
+           </property>
+           <property name="text">
+            <string>Binarization</string>
+           </property>
           </widget>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btnTrainTheMachine">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-          </property>
-          <property name="text">
-           <string>Train The Machine</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnCheck">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-          </property>
-          <property name="text">
-           <string>TEST</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
+         <widget class="QSlider" name="sliderBinarization">
+          <property name="maximumSize">
            <size>
-            <width>20</width>
-            <height>40</height>
+            <width>16777215</width>
+            <height>20</height>
            </size>
           </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnSaveSVM">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="whatsThis">
+           <string>Globale binarization</string>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
+           <string notr="true">border:0px ;</string>
           </property>
-          <property name="text">
-           <string>Save SVM Training</string>
+          <property name="maximum">
+           <number>254</number>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnLoadSVM">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
+          <property name="value">
+           <number>128</number>
           </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
- position: relative;
-    padding: 7px 12px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-    font-size: 15px;
-    font-family: Ubuntu;
-    color: #ffffff;
-    white-space: nowrap;
-    background-color: #a5a5a5;
-   
-    border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    border: 1px solid #a5a5a5;
-        border-top-width: 1px;
-        border-bottom-width: 1px;
-        border-top-style: solid;
-        border-bottom-style: solid;
-     
-    vertical-align: middle;
-}
-
-</string>
-          </property>
-          <property name="text">
-           <string>Load Training</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_7">
           <property name="orientation">
-           <enum>Qt::Vertical</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
+         </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="QGraphicsView" name="graphicsView">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="cursor" stdset="0">
-        <cursorShape>CrossCursor</cursorShape>
-       </property>
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QGraphicsView
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2" rowspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="btnPdfBack">
+            <property name="font">
+             <font>
+              <pointsize>-1</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+            </property>
+            <property name="text">
+             <string>&lt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinboxPDF">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border:0px solid #c5c5c5;
+height:30px;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="pdfLabel">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid #c5c5c5;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnPdfForward">
+            <property name="font">
+             <font>
+              <pointsize>-1</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+            </property>
+            <property name="text">
+             <string>&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="btnPreviousWord">
+            <property name="font">
+             <font>
+              <pointsize>-1</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+            </property>
+            <property name="text">
+             <string>&lt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelWordsCount">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid #c5c5c5;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnNextWord">
+            <property name="font">
+             <font>
+              <pointsize>-1</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+            </property>
+            <property name="text">
+             <string>&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGraphicsView" name="mainView">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="cursor" stdset="0">
+         <cursorShape>CrossCursor</cursorShape>
+        </property>
+        <property name="mouseTracking">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QGraphicsView
 {
 
     padding: 7px 8px;
@@ -1380,27 +504,212 @@ QGraphicsView:hover
         border-bottom-color: #00bbff;  
 
 }</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="viewVerticalHistogram">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="mouseTracking">
-        <bool>true</bool>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
-       </property>
-       <property name="autoFillBackground">
-        <bool>true</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QGraphicsView
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QPushButton" name="btnCorrectSkew">
+          <property name="font">
+           <font>
+            <pointsize>-1</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+
+</string>
+          </property>
+          <property name="text">
+           <string>Correct skew</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnContourDetection">
+          <property name="font">
+           <font>
+            <pointsize>-1</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>Contour detection</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnThining">
+          <property name="font">
+           <font>
+            <pointsize>-1</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>Thining</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnCXX">
+          <property name="font">
+           <font>
+            <pointsize>-1</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>CXX</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="3" rowspan="2">
+     <widget class="QGraphicsView" name="viewVerticalHistogram">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGraphicsView
 {
  
         padding: 7px 8px;
@@ -1434,19 +743,21 @@ QGraphicsView:hover
         border-bottom-color: #00bbff;  
 
 }</string>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="TE_FinalText">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>-1</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QTextEdit
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4" rowspan="2">
+     <widget class="QTextEdit" name="editableRecognizedText">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>-1</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTextEdit
 {
 	font-size:23px;
     padding: 7px 8px;
@@ -1482,11 +793,768 @@ QTextEdit:hover
 border-right-color:#00bbff;
 
 }</string>
-       </property>
-       <property name="placeholderText">
-        <string>Show Result</string>
-       </property>
-      </widget>
+      </property>
+      <property name="placeholderText">
+       <string>Show Result</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="widgetTrainSVM">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget
+{
+    
+    border: 0px solid #c5c5c5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-top-color: #c5c5c5;
+        border-bottom-color: #c5c5c5;
+		 border-left: 1px solid   #c5c5c5;
+    vertical-align: middle;
+}
+
+QWidget:hover
+{
+border-left: 1px solid   #00bbff;
+border-top: 1px solid   #00bbff;
+border-bottom: 1px solid   #00bbff;
+}
+
+</string>
+      </property>
+      <property name="title">
+       <string>Training the SVM</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSegmentIntoWords">
+           <property name="font">
+            <font>
+             <family>SFMono Nerd Font Mono</family>
+             <pointsize>-1</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 12px;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+
+</string>
+           </property>
+           <property name="text">
+            <string>Segmentation</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnLoadLabels">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>Load labels</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnExtractTrainingData">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>60</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 13px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>Get feature vectors of the training set</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelStatus">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border:0px;
+border-color: rgb(255, 255, 255);
+background-color: rgb(255, 255, 255);
+font: 10pt &quot;SFMono Nerd Font Mono&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Adjust SVM parametres</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSplitter" name="splitter_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <widget class="QWidget" name="layoutWidget">
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>C            -&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Degree-&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Gamma-&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>kernal   -&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="layoutWidget">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLineEdit" name="svmC">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid #c5c5c5;</string>
+               </property>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="svmDegree">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid #c5c5c5;</string>
+               </property>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="svmGamma">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid #c5c5c5;</string>
+               </property>
+               <property name="text">
+                <string>100</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="svmKernal">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <item>
+                <property name="text">
+                 <string>LINEAR</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>POLY</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>RBF</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>SIGMOID</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnTrainTheMachine">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>Train The Machine</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCheck">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>TEST</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSaveSVM">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>Save SVM model</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelThreshold">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border:0px;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="widgetRecognizeDocument">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget
+{
+    
+    border: 0px solid #c5c5c5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-top-color: #c5c5c5;
+        border-bottom-color: #c5c5c5;
+		 border-left: 1px solid   #c5c5c5;
+    vertical-align: middle;
+}
+
+QWidget:hover
+{
+border-left: 1px solid   #00bbff;
+border-top: 1px solid   #00bbff;
+border-bottom: 1px solid   #00bbff;
+}
+
+</string>
+      </property>
+      <property name="title">
+       <string>Recognize document</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QPushButton" name="btnLoadSVM">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+         </property>
+         <property name="text">
+          <string>Load model</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true">font: 9pt &quot;SFMono Nerd Font Mono&quot;;
+background-color: rgb(255, 255, 255);
+border-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>OR</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCutWord">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+         </property>
+         <property name="text">
+          <string>Get characters</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnGetTestingSet">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+         </property>
+         <property name="text">
+          <string>Get feature set</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnRecognizeCharacters">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+ position: relative;
+    padding: 7px 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    font-size: 15px;
+    font-family: Ubuntu;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: #a5a5a5;
+   
+    border-radius: 3px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    border: 1px solid #a5a5a5;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+     
+    vertical-align: middle;
+}
+
+</string>
+         </property>
+         <property name="text">
+          <string>Recognize characters</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -1496,7 +1564,7 @@ border-right-color:#00bbff;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>1168</width>
      <height>19</height>
     </rect>
    </property>
@@ -1548,7 +1616,6 @@ border-right-color:#00bbff;
    <addaction name="separator"/>
    <addaction name="actionRestart"/>
    <addaction name="separator"/>
-   <addaction name="actionLoadPDF"/>
    <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

@@ -99,7 +99,6 @@ private slots:
     void previousPage();
     void nextPage();
     void loadSpecificPage();
-    void changeVisibility();
 
     //! SEGMENTATION
     void binarization(int threshold = 0);

@@ -37,13 +37,13 @@ private:
 
     int w; // just for the test.
 
-    struct line
+    struct Line
     {
         int start;
         int end;
     };
 
-    struct word
+    struct Word
     {
         int x_start;
         int x_end;
@@ -57,17 +57,17 @@ private:
         int y;
     };
 
-    struct candidate
+    struct Candidate
     {
         int timeRepeated;
         int value;
     };
 
-    candidate C;
-    line L;
-    word W;
-    QList<line> geoLines;
-    QList<word> geoWords;
+    Candidate C;
+    Line line;
+    Word word;
+    QList<Line> geoLines;
+    QList<Word> geoWords;
 
 public:
     explicit Segmentation(QObject *parent = 0);
@@ -75,18 +75,18 @@ public:
     QList<Mat> tryCutWord(Mat imageIn);
     QList<int> cutWhereWhite(QList<int> list);
     QList<Mat> getCharactersInWord(Mat image, QList<int> posCuts);
-    void getPosCutWord(Mat imageLine, int lineNbr);
+    void getPositionCutWord(Mat imageLine, int lineIndex);
     int mostRedundantValue(QList<int> list);
     QList<int> calculateBackProjection(Mat imageIn, HistogramType type);
     Mat smoothingHistogram(Mat image);
     static Mat copyRect(Mat image, int x1, int y1, int x2, int y2);
     static Mat characterNormalization(Mat image);
     QList<Mat> cutLine2Characters(QList<Mat> listImagesLines, int i);
-    QList<Mat> getAllImagesLines(Mat image);
+    QList<Mat> getCollectionOfLinesDetected(Mat image);
     QList<Mat> segmentEntireDocument(Mat image);
-    void lineDetection(QList<int> HistDATA);
+    void lineDetection(QList<int> histogramData);
     void wordsDetection();
-    int averageLineHeight(QList<int> list);
+    int averageLineHeight(QList<int> histogramData);
 };
 
 #endif // SEGMENTATION_H
