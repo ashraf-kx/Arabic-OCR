@@ -74,6 +74,8 @@ set_target_properties(Arabic_OCR PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Arabic_OCR)
 endif()

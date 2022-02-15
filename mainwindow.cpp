@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
 
     this->showMaximized();
-    this->setWindowIcon(QIcon(QPixmap(":/Icons/IconAOCR.png")));
-    this->setWindowTitle("AOCR Release V 0.0.1");
+    this->setWindowIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/IconAOCR.png")));
+    this->setWindowTitle("Arabic OCR V1.0.1");
 
     ui->widget->setMaximumWidth(200);
     ui->widgetTrainingSVM->setMaximumWidth(200);
@@ -31,13 +31,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     ui->splitter->setHandleWidth(1);
 
-    // Associate every Action with An Icon
-    ui->actionOpen->setIcon(QIcon(QPixmap(":/Icons/Add.ico")));
-    ui->actionRestart->setIcon(QIcon(QPixmap(":/Icons/Available-Updates.ico")));
-    ui->actionShowPhoto->setIcon(QIcon(QPixmap(":/Icons/Cancel.ico")));
-    ui->actionCapturePhoto->setIcon(QIcon(QPixmap(":/Icons/Camera.ico")));
-    ui->actionSaveImage->setIcon(QIcon(QPixmap(":/Icons/saveImage.png")));
-    ui->actionLoadPDF->setIcon(QIcon(QPixmap(":/Icons/IconPDF.png")));
+    ui->actionOpen->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/Add.ico")));
+    ui->actionRestart->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/Available-Updates.ico")));
+    ui->actionShowPhoto->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/Cancel.ico")));
+    ui->actionCapturePhoto->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/Camera.ico")));
+    ui->actionSaveImage->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/saveImage.png")));
+    ui->actionLoadPDF->setIcon(QIcon(QPixmap(QDir::currentPath()+"/assets/IconPDF.png")));
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionSaveImage->setShortcut(QKeySequence::Save);
@@ -45,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->actionFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F));
     ui->actionExitFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::SHIFT, Qt::Key_F));
 
-    // Actions
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(browse()));
     connect(ui->actionLoadPDF, SIGNAL(triggered()), this, SLOT(loadPDF()));
     connect(ui->actionRestart, SIGNAL(triggered()), this, SLOT(reset()));
@@ -56,12 +54,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(ui->actionShowPhoto, SIGNAL(triggered()), this, SLOT(stopCapture()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     // connect(ui->actionGet_All_Vectors_NOW,SIGNAL(triggered()),segmentation,SLOT(cutAllWords2AllCharacters())); // SPECIAL ONE >>
-
-    // Sliders
-
     // connect(ui->horizontalSlider_threshold,SIGNAL(valueChanged(int)),ui->labelThreshold,SLOT(setNum(int)));
 
-    // Buttons
     connect(ui->btnPdfBack, SIGNAL(clicked()), this, SLOT(previousPage()));
     connect(ui->btnPdfForward, SIGNAL(clicked()), this, SLOT(nextPage()));
     connect(ui->btnNextWord, SIGNAL(clicked()), this, SLOT(moveToNextWord()));
