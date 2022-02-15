@@ -10,18 +10,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     this->setWindowIcon(QIcon(QPixmap(":/Icons/IconAOCR.png")));
     this->setWindowTitle("AOCR Release V 0.0.1");
 
-    ui->widget->setMaximumWidth(195);
-    ui->W_trainingSVM->setMaximumWidth(195);
+    ui->widget->setMaximumWidth(200);
+    ui->widgetTrainingSVM->setMaximumWidth(200);
     ui->widget->setEnabled(false);
-    ui->graphicsView_VHist->setMaximumWidth(0);
+    ui->viewVerticalHistogram->setMaximumWidth(0);
 
     scene = new QGraphicsScene();
     sceneVerticalHistogram = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
-    ui->graphicsView_VHist->setVisible(false);
+    ui->viewVerticalHistogram->setVisible(false);
     ui->TE_FinalText->setVisible(false);
-    ui->W_trainingSVM->setVisible(false);
+    ui->widgetTrainingSVM->setVisible(false);
 
     preprocessing = new Preprocess();
     recognition = new Recognition();
@@ -34,26 +34,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // Associate every Action with An Icon
     ui->actionOpen->setIcon(QIcon(QPixmap(":/Icons/Add.ico")));
     ui->actionRestart->setIcon(QIcon(QPixmap(":/Icons/Available-Updates.ico")));
-    ui->actionShow_photo->setIcon(QIcon(QPixmap(":/Icons/Cancel.ico")));
-    ui->actionCapture_photo->setIcon(QIcon(QPixmap(":/Icons/Camera.ico")));
-    ui->actionSave_Image->setIcon(QIcon(QPixmap(":/Icons/saveImage.png")));
-    ui->action_Load_PDF->setIcon(QIcon(QPixmap(":/Icons/IconPDF.png")));
+    ui->actionShowPhoto->setIcon(QIcon(QPixmap(":/Icons/Cancel.ico")));
+    ui->actionCapturePhoto->setIcon(QIcon(QPixmap(":/Icons/Camera.ico")));
+    ui->actionSaveImage->setIcon(QIcon(QPixmap(":/Icons/saveImage.png")));
+    ui->actionLoadPDF->setIcon(QIcon(QPixmap(":/Icons/IconPDF.png")));
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
-    ui->actionSave_Image->setShortcut(QKeySequence::Save);
+    ui->actionSaveImage->setShortcut(QKeySequence::Save);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F));
-    ui->actionExit_FullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::SHIFT, Qt::Key_F));
+    ui->actionExitFullScreen->setShortcut(QKeySequence(Qt::CTRL, Qt::SHIFT, Qt::Key_F));
 
     // Actions
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(browse()));
-    connect(ui->action_Load_PDF, SIGNAL(triggered()), this, SLOT(loadPDF()));
+    connect(ui->actionLoadPDF, SIGNAL(triggered()), this, SLOT(loadPDF()));
     connect(ui->actionRestart, SIGNAL(triggered()), this, SLOT(reset()));
     connect(ui->actionFullScreen, SIGNAL(triggered()), this, SLOT(showFullScreen()));
-    connect(ui->actionExit_FullScreen, SIGNAL(triggered()), this, SLOT(showMaximized()));
-    connect(ui->actionSave_Image, SIGNAL(triggered()), this, SLOT(saveImage()));
-    connect(ui->actionCapture_photo, SIGNAL(triggered()), this, SLOT(startCamera()));
-    connect(ui->actionShow_photo, SIGNAL(triggered()), this, SLOT(stopCapture()));
+    connect(ui->actionExitFullScreen, SIGNAL(triggered()), this, SLOT(showMaximized()));
+    connect(ui->actionSaveImage, SIGNAL(triggered()), this, SLOT(saveImage()));
+    connect(ui->actionCapturePhoto, SIGNAL(triggered()), this, SLOT(startCamera()));
+    connect(ui->actionShowPhoto, SIGNAL(triggered()), this, SLOT(stopCapture()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     // connect(ui->actionGet_All_Vectors_NOW,SIGNAL(triggered()),segmentation,SLOT(cutAllWords2AllCharacters())); // SPECIAL ONE >>
 
@@ -62,56 +62,46 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // connect(ui->horizontalSlider_threshold,SIGNAL(valueChanged(int)),ui->labelThreshold,SLOT(setNum(int)));
 
     // Buttons
-    connect(ui->Bt_PDF_Back, SIGNAL(clicked()), this, SLOT(previousPage()));
-    connect(ui->Bt_PDF_Forword, SIGNAL(clicked()), this, SLOT(nextPage()));
-    connect(ui->Bt_next_word, SIGNAL(clicked()), this, SLOT(moveToNextWord()));
-    connect(ui->Bt_previous_word, SIGNAL(clicked()), this, SLOT(moveToPreviousWord()));
-    connect(ui->Bt_trainingPhase, SIGNAL(clicked()), this, SLOT(changeVisibility()));
-    connect(ui->SB_PDF, SIGNAL(editingFinished()), this, SLOT(loadSpecificPage()));
+    connect(ui->btnPdfBack, SIGNAL(clicked()), this, SLOT(previousPage()));
+    connect(ui->btnPdfForward, SIGNAL(clicked()), this, SLOT(nextPage()));
+    connect(ui->btnNextWord, SIGNAL(clicked()), this, SLOT(moveToNextWord()));
+    connect(ui->btnPreviousWord, SIGNAL(clicked()), this, SLOT(moveToPreviousWord()));
+    connect(ui->btnTrainingPhase, SIGNAL(clicked()), this, SLOT(changeVisibility()));
+    connect(ui->spinboxPDF, SIGNAL(editingFinished()), this, SLOT(loadSpecificPage()));
 
     // Preprocessing
-    connect(ui->Bt_2binarization, SIGNAL(clicked()), this, SLOT(binarizationOTSU()));
-    connect(ui->Bt_ContourDetection, SIGNAL(clicked()), this, SLOT(contour()));
-    connect(ui->Bt_thining, SIGNAL(clicked()), this, SLOT(thinning()));
-    connect(ui->Bt_CXX, SIGNAL(clicked()), this, SLOT(CXX()));
-    connect(ui->Bt_CorrectSkew, SIGNAL(clicked()), this, SLOT(skew()));
-    connect(ui->HSliderBinarization, SIGNAL(valueChanged(int)), this, SLOT(binarizationGlobal(int)));
+    connect(ui->btnBinarization, SIGNAL(clicked()), this, SLOT(binarization()));
+    connect(ui->btnContourDetection, SIGNAL(clicked()), this, SLOT(contour()));
+    connect(ui->btnThining, SIGNAL(clicked()), this, SLOT(thinning()));
+    connect(ui->btnCXX, SIGNAL(clicked()), this, SLOT(CXX()));
+    connect(ui->btnCorrectSkew, SIGNAL(clicked()), this, SLOT(skew()));
+    connect(ui->sliderBinarization, SIGNAL(valueChanged(int)), this, SLOT(binarization(int)));
 
     // Segmentation
-    connect(ui->Bt_segmente_to_words, SIGNAL(clicked()), this, SLOT(segmentEntireDocument()));
-    connect(ui->Bt_cut_word, SIGNAL(clicked()), this, SLOT(cutCharacters()));
+    connect(ui->btnSegmentIntoWords, SIGNAL(clicked()), this, SLOT(segmentEntireDocument()));
+    connect(ui->btnCutWord, SIGNAL(clicked()), this, SLOT(cutCharacters()));
 
     // Recognition
-    connect(ui->BT_getFeatureSetTraining, SIGNAL(clicked()), this, SLOT(extractTrainingData()));
-    connect(ui->Bt_getTestingSet, SIGNAL(clicked()), this, SLOT(extractTestingData()));
-    connect(ui->BT_trainTheMachine, SIGNAL(clicked()), this, SLOT(trainTheMachine()));
-    connect(ui->Bt_recognize_characters, SIGNAL(clicked()), this, SLOT(recognize()));
-    connect(ui->BT_check, SIGNAL(clicked()), this, SLOT(recognizeTest()));
+    connect(ui->btnGetFeatureSetTraining, SIGNAL(clicked()), this, SLOT(extractTrainingData()));
+    connect(ui->btnGetTestingSet, SIGNAL(clicked()), this, SLOT(extractTestingData()));
+    connect(ui->btnTrainTheMachine, SIGNAL(clicked()), this, SLOT(trainTheMachine()));
+    connect(ui->btnRecognizeCharacters, SIGNAL(clicked()), this, SLOT(recognize()));
+    connect(ui->btnCheck, SIGNAL(clicked()), this, SLOT(recognizeTest()));
 
-    connect(ui->BT_loadSVM, SIGNAL(clicked()), this, SLOT(loadTrainingFile()));
-    connect(ui->BT_saveSVM, SIGNAL(clicked()), this, SLOT(saveTraining()));
-    connect(ui->Bt_LoadLabels, SIGNAL(clicked()), this, SLOT(loadLabels()));
+    connect(ui->btnLoadSVM, SIGNAL(clicked()), this, SLOT(loadTrainingFile()));
+    connect(ui->btnSaveSVM, SIGNAL(clicked()), this, SLOT(saveTraining()));
+    connect(ui->btnLoadLabels, SIGNAL(clicked()), this, SLOT(loadLabels()));
 }
 
-//!                PREPROCESSUS
-void MainWindow::binarizationOTSU()
+//! PREPROCESS
+void MainWindow::binarization(int threshold)
 {
-    matUnderProcess = preprocessing->binarizationOTSU(rgbMat);
+    matUnderProcess = preprocessing->binarization(rgbMat, threshold);
 
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
-    display(imageUnderProcess, "image binarizated.");
-    activateButton(ui->Bt_2binarization);
-}
-
-void MainWindow::binarizationGlobal(int Threshold)
-{
-    matUnderProcess = preprocessing->binarizationGlobal(rgbMat, Threshold);
-
-    imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
-    imageUnderProcess.bits();
-    display(imageUnderProcess, "image binarizated." + QString::number(Threshold));
-    activateButton(ui->Bt_2binarization);
+    display(imageUnderProcess, "image binarizated." + QString::number(threshold));
+    activateButton(ui->btnBinarization);
 }
 
 void MainWindow::thinning()
@@ -121,7 +111,7 @@ void MainWindow::thinning()
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
     display(imageUnderProcess, "Thinning Done.");
-    activateButton(ui->Bt_thining);
+    activateButton(ui->btnThining);
 }
 
 void MainWindow::contour()
@@ -131,7 +121,7 @@ void MainWindow::contour()
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
     display(imageUnderProcess, "Detection Countor.");
-    activateButton(ui->Bt_ContourDetection);
+    activateButton(ui->btnContourDetection);
 }
 
 void MainWindow::CXX()
@@ -141,7 +131,7 @@ void MainWindow::CXX()
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
     display(imageUnderProcess, "Connexe Compenent.");
-    activateButton(ui->Bt_CXX);
+    activateButton(ui->btnCXX);
 }
 
 void MainWindow::skew()
@@ -151,7 +141,7 @@ void MainWindow::skew()
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
     display(imageUnderProcess, "Skew Corrected.");
-    activateButton(ui->Bt_CorrectSkew);
+    activateButton(ui->btnCorrectSkew);
 }
 
 //!  SEGMENTATION
@@ -163,13 +153,13 @@ void MainWindow::segmentEntireDocument()
     {
         // imwrite("/home/ash/Desktop/XC1/Model/"+QString::number(i).toStdString()+".png",CharactersSet.at(i));
     }
-    activateButton(ui->Bt_next_word);
-    activateButton(ui->Bt_previous_word);
+    activateButton(ui->btnNextWord);
+    activateButton(ui->btnPreviousWord);
 
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
     display(imageUnderProcess, "Document Segmented Into " + QString::number(charactersSet.length()) + " Character.");
-    activateButton(ui->Bt_segmente_to_words);
+    activateButton(ui->btnSegmentIntoWords);
 }
 
 void MainWindow::cutCharacters()
@@ -193,30 +183,30 @@ void MainWindow::cutCharacters()
     imageUnderProcess = QImage((uchar *)matUnderProcess.data, matUnderProcess.cols, matUnderProcess.rows, matUnderProcess.step, QImage::Format_Indexed8);
     imageUnderProcess.bits();
     display(imageUnderProcess, "Set Of " + QString::number(charactersSet.length()) + " Character Image Located.");
-    activateButton(ui->Bt_cut_word);
+    activateButton(ui->btnCutWord);
 }
 
 //!                RECOGNITION
 void MainWindow::extractTrainingData()
 {
     trainSet = recognition->getTrainingSet(charactersSet);
-    activateButton(ui->BT_getFeatureSetTraining);
+    activateButton(ui->btnGetFeatureSetTraining);
     ui->statusBar->showMessage("Train Data Extracted.", 10000);
 }
 
 void MainWindow::extractTestingData()
 {
     testingSet = recognition->getTestingSet(charactersSet);
-    activateButton(ui->Bt_getTestingSet);
+    activateButton(ui->btnGetTestingSet);
     ui->statusBar->showMessage("Test Data Extracted.", 10000);
 }
 
 void MainWindow::trainTheMachine()
 {
     ui->statusBar->showMessage("Wait Please ......");
-    recognition->setSVMParameters(ui->CB_kernal->currentIndex(), ui->LE_c->text().toDouble(), ui->LE_degree->text().toDouble(), ui->LE_gamma->text().toDouble());
+    recognition->setSVMParameters(ui->svmKernal->currentIndex(), ui->svmC->text().toDouble(), ui->svmDegree->text().toDouble(), ui->svmGamma->text().toDouble());
     recognition->trainTheMachine(trainSet);
-    activateButton(ui->BT_trainTheMachine);
+    activateButton(ui->btnTrainTheMachine);
     ui->statusBar->showMessage("Machine Trained.", 10000);
 }
 
@@ -227,7 +217,7 @@ void MainWindow::recognize()
     ui->TE_FinalText->clear();
     ui->TE_FinalText->setText(Result);
     ui->TE_FinalText->setVisible(true);
-    activateButton(ui->Bt_recognize_characters);
+    activateButton(ui->btnRecognizeCharacters);
     ui->statusBar->showMessage("recognition Done.", 10000);
 }
 
@@ -237,7 +227,7 @@ void MainWindow::recognizeTest()
     ui->TE_FinalText->clear();
     ui->TE_FinalText->setText(Result);
     ui->TE_FinalText->setVisible(true);
-    activateButton(ui->BT_check);
+    activateButton(ui->btnCheck);
     ui->statusBar->showMessage("recognition Done.", 10000);
 }
 
@@ -246,7 +236,7 @@ void MainWindow::saveTraining()
     fileName = QFileDialog::getSaveFileName(this, tr("Save As"));
     recognition->saveTraining(fileName);
     ui->statusBar->showMessage("training file saved.", 10000);
-    activateButton(ui->BT_saveSVM);
+    activateButton(ui->btnSaveSVM);
 }
 
 void MainWindow::loadTrainingFile()
@@ -254,7 +244,7 @@ void MainWindow::loadTrainingFile()
     fileName = QFileDialog::getOpenFileName(this, "Choose Training File", QDir::homePath(), "(*.xml)");
     recognition->loadTrainingFile(fileName);
     ui->statusBar->showMessage("file SVM  training loaded.", 10000);
-    activateButton(ui->BT_loadSVM);
+    activateButton(ui->btnLoadSVM);
 }
 
 void MainWindow::loadLabels()
@@ -268,13 +258,12 @@ void MainWindow::loadLabels()
             QTextStream in(&file);
             QString labels = in.readAll();
             recognition->loadLabels(labels);
-            activateButton(ui->Bt_LoadLabels);
+            activateButton(ui->btnLoadLabels);
             ui->statusBar->showMessage("Labels loaded.", 15000);
         }
     }
 }
 
-//! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDF Methods Only  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 void MainWindow::loadPDF()
 {
     fileName = QFileDialog::getOpenFileName(this, "Choose your PDF File", QDir::homePath(), "*.pdf");
@@ -288,21 +277,21 @@ void MainWindow::loadPDF()
         imageUnderProcess = page->renderToImage(900 / 8.5, 1360 / 11);
         rgbMat = qImage2Mat(imageUnderProcess);
         qDebug() << "Image size (rendered from PDF): " + QString::number(rgbMat.size().width) + "x" + QString::number(rgbMat.size().height);
-        ui->PDF_Label->setText(QString::number(document->numPages()));
+        ui->pdfLabel->setText(QString::number(document->numPages()));
         display(page->renderToImage(900 / 8.5, 1360 / 11), "PDF displayed as an image at a resolution of : " + QString::number(imageUnderProcess.format()));
         ui->widget->setEnabled(true);
         ui->widget->setVisible(true);
-        ui->SB_PDF->setMaximum(document->numPages());
-        ui->SB_PDF->setMinimum(0);
+        ui->spinboxPDF->setMaximum(document->numPages());
+        ui->spinboxPDF->setMinimum(0);
         buttonsChangeColors();
-        activateButton(ui->Bt_PDF_Forword);
-        activateButton(ui->Bt_PDF_Back);
+        activateButton(ui->btnPdfForward);
+        activateButton(ui->btnPdfBack);
     }
 }
 
 void MainWindow::loadSpecificPage()
 {
-    numberPagePDF = ui->SB_PDF->value();
+    numberPagePDF = ui->spinboxPDF->value();
     if (document->numPages() > numberPagePDF)
     {
         page = document->page(numberPagePDF);
@@ -310,7 +299,7 @@ void MainWindow::loadSpecificPage()
         imageUnderProcess = page->renderToImage(900 / 8.5, 1360 / 11);
         rgbMat = qImage2Mat(imageUnderProcess);
         display(imageUnderProcess, "PDF page : " + QString::number(numberPagePDF));
-        ui->SB_PDF->setValue(numberPagePDF);
+        ui->spinboxPDF->setValue(numberPagePDF);
     }
 }
 
@@ -324,7 +313,7 @@ void MainWindow::nextPage()
         imageUnderProcess = page->renderToImage(900 / 8.5, 1360 / 11);
         rgbMat = qImage2Mat(imageUnderProcess);
         display(imageUnderProcess, "PDF page : " + QString::number(numberPagePDF));
-        ui->SB_PDF->setValue(numberPagePDF);
+        ui->spinboxPDF->setValue(numberPagePDF);
     }
     else
         numberPagePDF--;
@@ -340,7 +329,7 @@ void MainWindow::previousPage()
         imageUnderProcess = page->renderToImage();
         rgbMat = qImage2Mat(imageUnderProcess);
         display(imageUnderProcess, "PDF page : " + QString::number(numberPagePDF));
-        ui->SB_PDF->setValue(numberPagePDF);
+        ui->spinboxPDF->setValue(numberPagePDF);
     }
     else
         numberPagePDF++;
@@ -355,7 +344,7 @@ void MainWindow::moveToNextWord()
         imageUnderProcess = QImage((uchar *)binarizedMat.data, binarizedMat.cols, binarizedMat.rows, binarizedMat.step, QImage::Format_Indexed8);
         imageUnderProcess.bits();
 
-        ui->Lb_nbrWords->setText(QString::number(wordImageNumber + 1) + " /" + QString::number(charactersSet.length()));
+        ui->labelWordsCount->setText(QString::number(wordImageNumber + 1) + " /" + QString::number(charactersSet.length()));
         display(imageUnderProcess, "Word number :" + QString::number(wordImageNumber));
     }
     else
@@ -373,7 +362,7 @@ void MainWindow::moveToPreviousWord()
         imageUnderProcess = QImage((uchar *)binarizedMat.data, binarizedMat.cols, binarizedMat.rows, binarizedMat.step, QImage::Format_Indexed8);
         imageUnderProcess.bits();
 
-        ui->Lb_nbrWords->setText(QString::number(wordImageNumber) + " /" + QString::number(charactersSet.length()));
+        ui->labelWordsCount->setText(QString::number(wordImageNumber) + " /" + QString::number(charactersSet.length()));
         display(imageUnderProcess, "Word number :" + QString::number(wordImageNumber));
     }
     else
@@ -384,7 +373,7 @@ void MainWindow::moveToPreviousWord()
 
 void MainWindow::startCamera()
 {
-    ui->actionCapture_photo->setDisabled(true);
+    ui->actionCapturePhoto->setDisabled(true);
     this->exitCamera = true;
     VideoCapture _WebCam(0); // Open The Default Camera.
     if (!_WebCam.isOpened()) // Check If We Succeeded.
@@ -416,7 +405,7 @@ void MainWindow::stopCapture()
 {
     this->exitCamera = false;
     ui->widget->setEnabled(true);
-    ui->actionCapture_photo->setDisabled(false);
+    ui->actionCapturePhoto->setDisabled(false);
 }
 
 //! >>>>>>>>>>>>>>>>>>>>>>>>>> EXTRA METHODES TO HELP >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -472,9 +461,9 @@ void MainWindow::displayHistogram(const QImage &image)
     pixmapVerticalHistogram = new QGraphicsPixmapItem(QPixmap::fromImage(image));
     sceneVerticalHistogram->clear();
     sceneVerticalHistogram->addItem(pixmapVerticalHistogram);
-    ui->graphicsView_VHist->setScene(sceneVerticalHistogram);
-    ui->graphicsView_VHist->setMinimumWidth(10);
-    ui->graphicsView_VHist->update();
+    ui->viewVerticalHistogram->setScene(sceneVerticalHistogram);
+    ui->viewVerticalHistogram->setMinimumWidth(10);
+    ui->viewVerticalHistogram->update();
 }
 
 void MainWindow::browse()
@@ -500,7 +489,7 @@ void MainWindow::browse()
 void MainWindow::reset()
 {
     ui->widget->setVisible(false);
-    ui->graphicsView_VHist->setMaximumWidth(0);
+    ui->viewVerticalHistogram->setMaximumWidth(0);
     ui->TE_FinalText->setVisible(false);
     scene->clear();
 
@@ -528,12 +517,12 @@ void MainWindow::reset()
 
 void MainWindow::changeVisibility()
 {
-    ui->W_trainingSVM->setVisible(!ui->W_trainingSVM->isVisible());
+    ui->widgetTrainingSVM->setVisible(!ui->widgetTrainingSVM->isVisible());
     // DESIGNER >> 2015
-    if (!ui->W_trainingSVM->isVisible())
-        deactivateButton(ui->Bt_trainingPhase);
+    if (!ui->widgetTrainingSVM->isVisible())
+        deactivateButton(ui->btnTrainingPhase);
     else
-        activateButton(ui->Bt_trainingPhase);
+        activateButton(ui->btnTrainingPhase);
 }
 
 void MainWindow::buttonsChangeColors()
@@ -551,26 +540,26 @@ void MainWindow::buttonsChangeColors()
             border: 1px solid #a5a5a5;border-top-width: 1px;border-bottom-width: 1px;\
             border-top-style: solid;border-bottom-style: solid; vertical-align: middle;";
 
-    ui->Bt_2binarization->setStyleSheet(styleScriptCSS);
-    ui->Bt_ContourDetection->setStyleSheet(styleScriptCSS);
-    ui->Bt_CorrectSkew->setStyleSheet(styleScriptCSS);
-    ui->Bt_cut_word->setStyleSheet(styleScriptCSS);
-    ui->Bt_CXX->setStyleSheet(styleScriptCSS);
-    ui->Bt_getTestingSet->setStyleSheet(styleScriptCSS);
-    ui->Bt_LoadLabels->setStyleSheet(styleScriptCSS);
-    ui->Bt_next_word->setStyleSheet(styleScriptCSS);
-    ui->Bt_PDF_Back->setStyleSheet(styleScriptCSS);
-    ui->Bt_PDF_Forword->setStyleSheet(styleScriptCSS);
-    ui->Bt_previous_word->setStyleSheet(styleScriptCSS);
-    ui->Bt_recognize_characters->setStyleSheet(styleScriptCSS);
-    ui->Bt_segmente_to_words->setStyleSheet(styleScriptCSS_EXP);
-    ui->Bt_thining->setStyleSheet(styleScriptCSS);
-    ui->Bt_trainingPhase->setStyleSheet(styleScriptCSS);
-    ui->BT_check->setStyleSheet(styleScriptCSS);
-    ui->BT_getFeatureSetTraining->setStyleSheet(styleScriptCSS_EXP);
-    ui->BT_loadSVM->setStyleSheet(styleScriptCSS);
-    ui->BT_saveSVM->setStyleSheet(styleScriptCSS);
-    ui->BT_trainTheMachine->setStyleSheet(styleScriptCSS);
+    ui->btnBinarization->setStyleSheet(styleScriptCSS);
+    ui->btnContourDetection->setStyleSheet(styleScriptCSS);
+    ui->btnCorrectSkew->setStyleSheet(styleScriptCSS);
+    ui->btnCutWord->setStyleSheet(styleScriptCSS);
+    ui->btnCXX->setStyleSheet(styleScriptCSS);
+    ui->btnGetTestingSet->setStyleSheet(styleScriptCSS);
+    ui->btnLoadLabels->setStyleSheet(styleScriptCSS);
+    ui->btnNextWord->setStyleSheet(styleScriptCSS);
+    ui->btnPdfBack->setStyleSheet(styleScriptCSS);
+    ui->btnPdfForward->setStyleSheet(styleScriptCSS);
+    ui->btnPreviousWord->setStyleSheet(styleScriptCSS);
+    ui->btnRecognizeCharacters->setStyleSheet(styleScriptCSS);
+    ui->btnSegmentIntoWords->setStyleSheet(styleScriptCSS_EXP);
+    ui->btnThining->setStyleSheet(styleScriptCSS);
+    ui->btnTrainingPhase->setStyleSheet(styleScriptCSS);
+    ui->btnCheck->setStyleSheet(styleScriptCSS);
+    ui->btnGetFeatureSetTraining->setStyleSheet(styleScriptCSS_EXP);
+    ui->btnLoadSVM->setStyleSheet(styleScriptCSS);
+    ui->btnSaveSVM->setStyleSheet(styleScriptCSS);
+    ui->btnTrainTheMachine->setStyleSheet(styleScriptCSS);
 }
 
 void MainWindow::activateButton(QPushButton *BT)
@@ -588,7 +577,7 @@ void MainWindow::activateButton(QPushButton *BT)
             border: 1px solid #E05A2B;border-top-width: 1px;border-bottom-width: 1px;\
             border-top-style: solid;border-bottom-style: solid; vertical-align: middle;";
 
-    if (BT == ui->Bt_segmente_to_words || BT == ui->BT_getFeatureSetTraining)
+    if (BT == ui->btnSegmentIntoWords || BT == ui->btnGetFeatureSetTraining)
         BT->setStyleSheet(styleScriptCSS_EXE);
     else
         BT->setStyleSheet(styleScriptCSS);

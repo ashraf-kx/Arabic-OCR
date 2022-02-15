@@ -48,7 +48,6 @@ QMainWindow:hover
        <property name="font">
         <font>
          <pointsize>11</pointsize>
-         <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
         </font>
@@ -83,10 +82,9 @@ border-bottom: 1px solid   #00bbff;
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QPushButton" name="Bt_PDF_Back">
+             <widget class="QPushButton" name="btnPdfBack">
               <property name="font">
                <font>
-                <family>Ubuntu</family>
                 <pointsize>-1</pointsize>
                </font>
               </property>
@@ -127,11 +125,10 @@ border-bottom: 1px solid   #00bbff;
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="SB_PDF">
+             <widget class="QSpinBox" name="spinboxPDF">
               <property name="font">
                <font>
                 <pointsize>11</pointsize>
-                <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
@@ -144,11 +141,10 @@ height:30px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="PDF_Label">
+             <widget class="QLabel" name="pdfLabel">
               <property name="font">
                <font>
                 <pointsize>11</pointsize>
-                <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
@@ -163,10 +159,9 @@ border:1px solid #c5c5c5;</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="Bt_PDF_Forword">
+             <widget class="QPushButton" name="btnPdfForward">
               <property name="font">
                <font>
-                <family>Ubuntu</family>
                 <pointsize>-1</pointsize>
                </font>
               </property>
@@ -213,7 +208,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -221,10 +215,9 @@ border:1px solid #c5c5c5;</string>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <widget class="QPushButton" name="Bt_2binarization">
+            <widget class="QPushButton" name="btnBinarization">
              <property name="font">
               <font>
-               <family>Ubuntu</family>
                <pointsize>-1</pointsize>
               </font>
              </property>
@@ -271,7 +264,7 @@ border:1px solid #c5c5c5;</string>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="HSliderBinarization">
+           <widget class="QSlider" name="sliderBinarization">
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -281,7 +274,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -311,7 +303,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -328,10 +319,9 @@ border:1px solid #c5c5c5;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_CorrectSkew">
+           <widget class="QPushButton" name="btnCorrectSkew">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -378,7 +368,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -405,10 +394,9 @@ border:1px solid #c5c5c5;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_trainingPhase">
+           <widget class="QPushButton" name="btnTrainingPhase">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -454,7 +442,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -473,10 +460,9 @@ border:1px solid #c5c5c5;</string>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="Bt_previous_word">
+             <widget class="QPushButton" name="btnPreviousWord">
               <property name="font">
                <font>
-                <family>Ubuntu</family>
                 <pointsize>-1</pointsize>
                </font>
               </property>
@@ -517,11 +503,10 @@ border:1px solid #c5c5c5;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="Lb_nbrWords">
+             <widget class="QLabel" name="labelWordsCount">
               <property name="font">
                <font>
                 <pointsize>11</pointsize>
-                <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
@@ -536,10 +521,9 @@ border:1px solid #c5c5c5;</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="Bt_next_word">
+             <widget class="QPushButton" name="btnNextWord">
               <property name="font">
                <font>
-                <family>Ubuntu</family>
                 <pointsize>-1</pointsize>
                </font>
               </property>
@@ -582,10 +566,9 @@ border:1px solid #c5c5c5;</string>
            </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_cut_word">
+           <widget class="QPushButton" name="btnCutWord">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -640,10 +623,9 @@ border:1px solid #c5c5c5;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_getTestingSet">
+           <widget class="QPushButton" name="btnGetTestingSet">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -685,10 +667,9 @@ border:1px solid #c5c5c5;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_recognize_characters">
+           <widget class="QPushButton" name="btnRecognizeCharacters">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -734,7 +715,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -752,7 +732,6 @@ border:1px solid #c5c5c5;</string>
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
@@ -769,10 +748,9 @@ border:1px solid #c5c5c5;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_ContourDetection">
+           <widget class="QPushButton" name="btnContourDetection">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -816,10 +794,9 @@ border:1px solid #c5c5c5;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_thining">
+           <widget class="QPushButton" name="btnThining">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -863,10 +840,9 @@ border:1px solid #c5c5c5;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="Bt_CXX">
+           <widget class="QPushButton" name="btnCXX">
             <property name="font">
              <font>
-              <family>Ubuntu</family>
               <pointsize>-1</pointsize>
              </font>
             </property>
@@ -907,7 +883,7 @@ border:1px solid #c5c5c5;</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="W_trainingSVM" native="true">
+      <widget class="QWidget" name="widgetTrainingSVM" native="true">
        <property name="styleSheet">
         <string notr="true">QWidget
 {
@@ -934,10 +910,9 @@ border-bottom: 1px solid   #00bbff;
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QPushButton" name="Bt_segmente_to_words">
+         <widget class="QPushButton" name="btnSegmentIntoWords">
           <property name="font">
            <font>
-            <family>Ubuntu</family>
             <pointsize>-1</pointsize>
            </font>
           </property>
@@ -983,7 +958,7 @@ border-bottom: 1px solid   #00bbff;
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="Bt_LoadLabels">
+         <widget class="QPushButton" name="btnLoadLabels">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -1022,7 +997,7 @@ border-bottom: 1px solid   #00bbff;
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BT_getFeatureSetTraining">
+         <widget class="QPushButton" name="btnGetFeatureSetTraining">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -1113,7 +1088,7 @@ border-bottom: 1px solid   #00bbff;
           <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QLineEdit" name="LE_c">
+             <widget class="QLineEdit" name="svmC">
               <property name="styleSheet">
                <string notr="true">background-color: rgb(255, 255, 255);
 border:1px solid #c5c5c5;</string>
@@ -1124,7 +1099,7 @@ border:1px solid #c5c5c5;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="LE_degree">
+             <widget class="QLineEdit" name="svmDegree">
               <property name="styleSheet">
                <string notr="true">background-color: rgb(255, 255, 255);
 border:1px solid #c5c5c5;</string>
@@ -1135,7 +1110,7 @@ border:1px solid #c5c5c5;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="LE_gamma">
+             <widget class="QLineEdit" name="svmGamma">
               <property name="styleSheet">
                <string notr="true">background-color: rgb(255, 255, 255);
 border:1px solid #c5c5c5;</string>
@@ -1146,7 +1121,7 @@ border:1px solid #c5c5c5;</string>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="CB_kernal">
+             <widget class="QComboBox" name="svmKernal">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
@@ -1177,7 +1152,7 @@ border:1px solid #c5c5c5;</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BT_trainTheMachine">
+         <widget class="QPushButton" name="btnTrainTheMachine">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -1216,7 +1191,7 @@ border:1px solid #c5c5c5;</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BT_check">
+         <widget class="QPushButton" name="btnCheck">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -1268,7 +1243,7 @@ border:1px solid #c5c5c5;</string>
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="BT_saveSVM">
+         <widget class="QPushButton" name="btnSaveSVM">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -1307,7 +1282,7 @@ border:1px solid #c5c5c5;</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="BT_loadSVM">
+         <widget class="QPushButton" name="btnLoadSVM">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
@@ -1364,7 +1339,6 @@ border:1px solid #c5c5c5;</string>
        <property name="font">
         <font>
          <pointsize>11</pointsize>
-         <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
         </font>
@@ -1408,11 +1382,10 @@ QGraphicsView:hover
 }</string>
        </property>
       </widget>
-      <widget class="QGraphicsView" name="graphicsView_VHist">
+      <widget class="QGraphicsView" name="viewVerticalHistogram">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
-         <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>
         </font>
@@ -1524,7 +1497,7 @@ border-right-color:#00bbff;
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>25</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1544,7 +1517,7 @@ border-right-color:#00bbff;
      <string>View</string>
     </property>
     <addaction name="actionFullScreen"/>
-    <addaction name="actionExit_FullScreen"/>
+    <addaction name="actionExitFullScreen"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -1553,7 +1526,6 @@ border-right-color:#00bbff;
   <widget class="QToolBar" name="toolBar">
    <property name="font">
     <font>
-     <family>Arial</family>
      <pointsize>10</pointsize>
     </font>
    </property>
@@ -1568,15 +1540,15 @@ border-right-color:#00bbff;
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="separator"/>
-   <addaction name="actionCapture_photo"/>
+   <addaction name="actionCapturePhoto"/>
    <addaction name="separator"/>
-   <addaction name="actionSave_Image"/>
+   <addaction name="actionSaveImage"/>
    <addaction name="separator"/>
-   <addaction name="actionShow_photo"/>
+   <addaction name="actionShowPhoto"/>
    <addaction name="separator"/>
    <addaction name="actionRestart"/>
    <addaction name="separator"/>
-   <addaction name="action_Load_PDF"/>
+   <addaction name="actionLoadPDF"/>
    <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -1605,27 +1577,27 @@ border-right-color:#00bbff;
     <string>FullScreen</string>
    </property>
   </action>
-  <action name="actionExit_FullScreen">
+  <action name="actionExitFullScreen">
    <property name="text">
     <string>exit FullScreen</string>
    </property>
   </action>
-  <action name="actionSave_Image">
+  <action name="actionSaveImage">
    <property name="text">
     <string>Save Image</string>
    </property>
   </action>
-  <action name="actionCapture_photo">
+  <action name="actionCapturePhoto">
    <property name="text">
     <string>capture photo</string>
    </property>
   </action>
-  <action name="actionShow_photo">
+  <action name="actionShowPhoto">
    <property name="text">
     <string>show photo</string>
    </property>
   </action>
-  <action name="action_Load_PDF">
+  <action name="actionLoadPDF">
    <property name="text">
     <string>&amp;Load PDF</string>
    </property>

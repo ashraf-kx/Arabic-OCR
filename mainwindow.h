@@ -102,8 +102,7 @@ private slots:
     void changeVisibility();
 
     //! SEGMENTATION
-    void binarizationOTSU();
-    void binarizationGlobal(int Threshold);
+    void binarization(int threshold = 0);
     void thinning();
     void contour();
     void CXX();

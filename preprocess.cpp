@@ -4,32 +4,25 @@ Preprocess::Preprocess(QObject *parent) : QObject(parent)
 {
 }
 
-Mat Preprocess::binarizationOTSU(const Mat &image)
-{
-    Mat _imgInProcessus;
-    Mat _imgBW;
+/**
+ * @brief Preprocess::binarization
+ * @param image
+ * @param thresholdValue
+ * @return
+ * if threshholdValue default to 0 then apply OTSU-binarization
+ * else apply Global-binarization
+ */
 
-    //! [ UNDER CONTROL ] 04/03/2015   19:59
-    GaussianBlur(image, _imgInProcessus, Size(3, 3), 0, 0);
-    cvtColor(_imgInProcessus, _imgBW, CV_RGB2GRAY);
+Mat Preprocess::binarization(const Mat &image, int thresholdValue)
+{    
+    Mat matUnderProcess;
+    Mat binarizedMat;
 
-    //!  OTSU Globale [ Suit the Printer ].
-    threshold(_imgBW, _imgBW, 0, 255, CV_THRESH_BINARY + CV_THRESH_OTSU);
-    return _imgBW;
-}
+    GaussianBlur(image, matUnderProcess, Size(3, 3), 0, 0);
+    cvtColor(matUnderProcess, binarizedMat, CV_RGB2GRAY);
+    threshold(binarizedMat, binarizedMat, thresholdValue, 255, thresholdValue == 0 ? CV_THRESH_BINARY + CV_THRESH_OTSU : CV_THRESH_BINARY);
 
-Mat Preprocess::binarizationGlobal(const Mat &image, int Threshold)
-{
-    Mat _imgInProcessus;
-    Mat _imgBW;
-
-    //! [ UNDER CONTROL ] 04/03/2015   19:59
-    GaussianBlur(image, _imgInProcessus, Size(3, 3), 0, 0);
-    cvtColor(_imgInProcessus, _imgBW, CV_RGB2GRAY);
-
-    //!  Glabale Threshold [ Suit the Printer ].
-    threshold(_imgBW, _imgBW, Threshold, 255, CV_THRESH_BINARY);
-    return _imgBW;
+    return binarizedMat;
 }
 
 Mat Preprocess::convert2cxx(const Mat &image)
@@ -41,7 +34,7 @@ Mat Preprocess::convert2cxx(const Mat &image)
     std::vector<std::vector<Point2i>> blobs;
     blobs.clear();
 
-    threshold(image, image, 0.0, 1.0, THRESH_BINARY_INV);
+    threshold(image, image, 0.0, 1.0, THRESH_BINARY);
     Mat output = Mat::zeros(image.size(), CV_8UC3);
     Mat label_image;
 
@@ -58,7 +51,6 @@ Mat Preprocess::convert2cxx(const Mat &image)
 
             Rect rect;
             floodFill(label_image, Point(x, y), label_count, &rect, 0, 0, 4);
-
             std::vector<Point2i> blob;
 
             for (int i = rect.y; i < (rect.y + rect.height); i++)
@@ -72,7 +64,6 @@ Mat Preprocess::convert2cxx(const Mat &image)
             }
 
             blobs.push_back(blob);
-
             label_count++;
         }
     }
@@ -94,14 +85,14 @@ Mat Preprocess::convert2cxx(const Mat &image)
             output.at<Vec3b>(y, x)[2] = r;
         }
     }
-    // imshow("CXX Colors",output);
+    imshow("CXX Colors",output);
     cvtColor(output, output, CV_BGR2GRAY);
-    // Remove Black.
+    // Remove White.
     for (int i = 0; i < output.rows; i++)
         for (int j = 0; j < output.cols; ++j)
         {
-            if (output.at<uchar>(i, j) == 0)
-                output.at<uchar>(i, j) = 255;
+            if (output.at<uchar>(i, j) == 255)
+                output.at<uchar>(i, j) = 0;
         }
     return output;
 }
@@ -112,7 +103,7 @@ Mat Preprocess::copyRect(const Mat &image, int x1, int y1, int x2, int y2)
     int jj = 0;
     int rows = x2 - x1;
     int cols = y2 - y1;
-    // Qdebug()<<QString::number(rows)+"X"+QString::number(cols);
+    // qDebug()<<QString::number(rows)+"X"+QString::number(cols);
     Mat partImage(rows, cols, CV_8UC1, Scalar(0));
     for (int i = x1; i < x2; i++)
     {
@@ -163,6 +154,7 @@ Mat Preprocess::contour(const Mat &image)
 {
     int x; // Parametre of dicision <point is contour or not>.
     int whiteColor = 255;
+    int blackColor = 0;
     pos point;
     QList<pos> contourPointsFound; // keeping contour points only.
     Mat contourMat = image.clone();
@@ -222,38 +214,36 @@ Mat Preprocess::contour(const Mat &image)
         for (int i = 1; i < contourMat.rows; i++)
         {
             if (contourMat.at<uchar>(i, j) == whiteColor)
-                contourMat.at<uchar>(i, j) = 0;
+                contourMat.at<uchar>(i, j) = blackColor;
             if (contourMat.at<uchar>(i, j) == 87)
-                contourMat.at<uchar>(i, j) = 255;
+                contourMat.at<uchar>(i, j) = whiteColor;
         }    
     return contourMat;
 }
 
 Mat Preprocess::Thinning(Mat image)
 {
-    //! [Under Controle]   02/03/2015 16:44
-    threshold(image, image, 10, 255, CV_THRESH_BINARY_INV);
+    threshold(image, image, 10, 255, CV_THRESH_BINARY);
     thinning(image);
-    threshold(image, image, 10, 255, CV_THRESH_BINARY_INV);
+    threshold(image, image, 10, 255, CV_THRESH_BINARY);
     return image;
 }
 
-void Preprocess::thinningIteration(Mat &im, int iter)
+void Preprocess::thinningIteration(Mat &image, int iter)
 {
-    Mat marker = Mat::zeros(im.size(), CV_8UC1);
+    Mat marker = Mat::zeros(image.size(), CV_8UC1);
 
-    for (int i = 1; i < im.rows - 1; i++)
-    {
-        for (int j = 1; j < im.cols - 1; j++)
+    for (int i = 1; i < image.rows - 1; i++)
+        for (int j = 1; j < image.cols - 1; j++)
         {
-            uchar p2 = im.at<uchar>(i - 1, j);
-            uchar p3 = im.at<uchar>(i - 1, j + 1);
-            uchar p4 = im.at<uchar>(i, j + 1);
-            uchar p5 = im.at<uchar>(i + 1, j + 1);
-            uchar p6 = im.at<uchar>(i + 1, j);
-            uchar p7 = im.at<uchar>(i + 1, j - 1);
-            uchar p8 = im.at<uchar>(i, j - 1);
-            uchar p9 = im.at<uchar>(i - 1, j - 1);
+            uchar p2 = image.at<uchar>(i - 1, j);
+            uchar p3 = image.at<uchar>(i - 1, j + 1);
+            uchar p4 = image.at<uchar>(i, j + 1);
+            uchar p5 = image.at<uchar>(i + 1, j + 1);
+            uchar p6 = image.at<uchar>(i + 1, j);
+            uchar p7 = image.at<uchar>(i + 1, j - 1);
+            uchar p8 = image.at<uchar>(i, j - 1);
+            uchar p9 = image.at<uchar>(i - 1, j - 1);
 
             int A = (p2 == 0 && p3 == 1) + (p3 == 0 && p4 == 1) +
                     (p4 == 0 && p5 == 1) + (p5 == 0 && p6 == 1) +
@@ -265,26 +255,25 @@ void Preprocess::thinningIteration(Mat &im, int iter)
 
             if (A == 1 && (B >= 2 && B <= 6) && m1 == 0 && m2 == 0)
                 marker.at<uchar>(i, j) = 1;
-        }
-    }
+        }    
 
-    im &= ~marker;
+    image &= ~marker;
 }
 
-void Preprocess::thinning(Mat &im)
+void Preprocess::thinning(Mat &image)
 {
-    im /= 255;
+    image /= 255;
 
-    Mat prev = Mat::zeros(im.size(), CV_8UC1);
+    Mat prev = Mat::zeros(image.size(), CV_8UC1);
     Mat diff;
 
     do
     {
-        thinningIteration(im, 0);
-        thinningIteration(im, 1);
-        absdiff(im, prev, diff);
-        im.copyTo(prev);
+        thinningIteration(image, 0);
+        thinningIteration(image, 1);
+        absdiff(image, prev, diff);
+        image.copyTo(prev);
     } while (countNonZero(diff) > 0);
 
-    im *= 255;
+    image *= 255;
 }
