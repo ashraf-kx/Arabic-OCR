@@ -72,9 +72,10 @@ void Recognition::setSVMParameters(int kernalType, double C, double degree, doub
 void Recognition::trainTheMachine(Mat trainingSet)
 {
     // 1. Setup SVM Parametres. [ Called before this method scope ]
-    // 2. Preparing Data For Supervised Learning.
+    // 2. Preparing data for supervised learning.
     Mat labels(trainingSet.rows, 1, CV_32FC1);
-    for (int i = 0; i < labels.rows;)    
+    /* Can't recall why I was doing this double loops ? */
+    for (int i = 0; i < labels.rows;)
         for (int j = 0; j <= trainingSet.rows; j++)
         {
             labels.at<float>(i, 0) = j;
@@ -83,12 +84,15 @@ void Recognition::trainTheMachine(Mat trainingSet)
                 break;
         }
 
-    // 3. Train The SVM
-
-    // qint64 start = QDateTime::currentMSecsSinceEpoch();
-    svm->train(trainingSet, ROW_SAMPLE, labels);
-    // qint64 end = QDateTime::currentMSecsSinceEpoch();
-    // int x = end-start;
+    try {
+        // 3. Train The SVM
+        // qint64 start = QDateTime::currentMSecsSinceEpoch();
+        svm->train(trainingSet, ROW_SAMPLE, labels);
+        // qint64 end = QDateTime::currentMSecsSinceEpoch();
+        // int x = end-start;
+    } catch (cv::Exception &e) {
+        qDebug()<< e.what();
+    }
 }
 
 void Recognition::loadTrainingFile(QString fileName)
@@ -133,7 +137,7 @@ QString Recognition::recognizeTest(Mat TestingSet)
     {
         int x = charactersRecognized.at<float>(i, 1);
 
-        finalResultToShow = finalResultToShow + " " + list.at(x);
+        finalResultToShow += " " + list.at(x);
     }
     qDebug() << finalResultToShow;
     return finalResultToShow;

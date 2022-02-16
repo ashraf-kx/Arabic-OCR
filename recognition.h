@@ -24,7 +24,7 @@ class Recognition : public QObject
 {
     Q_OBJECT
 private:
-    Ptr<SVM> svm;
+    Ptr<ml::SVM> svm;
 
     QString allLettres;
     Mat labels;
